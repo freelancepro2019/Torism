@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "736892414057",
+    "firebase_url": "https://torismguide-default-rtdb.firebaseio.com",
+    "project_id": "torismguide",
+    "storage_bucket": "torismguide.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:736892414057:android:4eae9e332ea2a7f9ab5af8",
+        "android_client_info": {
+          "package_name": "com.app.tourism"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "736892414057-h2hv83cl9mq5qindit9s59ev6h8gcrc1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDt3KaMCzGyoj7fdGsI9IBar6mmYD1vkjg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "736892414057-h2hv83cl9mq5qindit9s59ev6h8gcrc1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
