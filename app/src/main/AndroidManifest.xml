@@ -16,13 +16,13 @@
             android:name="com.app.tourism.uis.activity_home.HomeActivity"
             android:exported="true" />
         <activity
-            android:name="com.app.tourism.uis.activity_sign_up.SignUpActivity"
+            android:name=".uis.common_ui.activity_sign_up.SignUpActivity"
             android:exported="true" />
         <activity
-            android:name="com.app.tourism.uis.activity_login.LoginActivity"
+            android:name=".uis.common_ui.activity_login.LoginActivity"
             android:exported="true" />
         <activity
-            android:name="com.app.tourism.uis.activity_splash.SplashActivity"
+            android:name=".uis.common_ui.activity_splash.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

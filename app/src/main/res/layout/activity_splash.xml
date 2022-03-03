@@ -5,7 +5,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".uis.activity_splash.SplashActivity"
+        tools:context=".uis.common_ui.activity_splash.SplashActivity"
         android:background="@color/colorPrimary"
         >
 

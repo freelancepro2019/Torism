@@ -1,26 +1,24 @@
-package com.app.tourism.uis.activity_home.fragments;
+package com.app.tourism.uis.activity_home.fragments.camera_module;
 
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
-import androidx.navigation.Navigation;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.app.tourism.R;
-import com.app.tourism.databinding.FragmentHomeBinding;
-import com.app.tourism.databinding.FragmentProfileBinding;
-import com.app.tourism.uis.activity_base.FragmentBase;
-import com.app.tourism.uis.activity_home.HomeActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 
-public class FragmentProfile extends FragmentBase {
-    private FragmentProfileBinding binding;
+import com.app.tourism.R;
+import com.app.tourism.databinding.FragmentCameraBinding;
+import com.app.tourism.databinding.FragmentHomeBinding;
+import com.app.tourism.uis.activity_home.HomeActivity;
+import com.app.tourism.uis.common_ui.activity_base.FragmentBase;
+
+public class FragmentCamera extends FragmentBase {
     private HomeActivity activity;
+    private FragmentCameraBinding binding;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -31,7 +29,7 @@ public class FragmentProfile extends FragmentBase {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_profile,container,false);
+        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_camera,container,false);
         return binding.getRoot();
     }
 
@@ -42,12 +40,6 @@ public class FragmentProfile extends FragmentBase {
     }
 
     private void initView() {
-        binding.setLang(getLang());
-        binding.setModel(getUserModel());
-        binding.cardLogout.setOnClickListener(view -> {
-            activity.logout();
-        });
-
 
     }
 }

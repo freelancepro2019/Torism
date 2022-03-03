@@ -1,4 +1,4 @@
-package com.app.tourism.uis.activity_base;
+package com.app.tourism.uis.common_ui.activity_base;
 
 import android.content.Context;
 

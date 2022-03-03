@@ -1,4 +1,4 @@
-package com.app.tourism.uis.activity_home.fragments;
+package com.app.tourism.uis.activity_home.fragments.home_module;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 import com.app.tourism.R;
 import com.app.tourism.databinding.FragmentHomeBinding;
-import com.app.tourism.uis.activity_base.FragmentBase;
+import com.app.tourism.uis.common_ui.activity_base.FragmentBase;
 import com.app.tourism.uis.activity_home.HomeActivity;
 
 public class FragmentHome extends FragmentBase {

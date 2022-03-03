@@ -2,14 +2,14 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/home_navigation"
-    app:startDestination="@id/fragmentHome"
+    android:id="@+id/camera_navigation"
+    app:startDestination="@id/fragmentCamera"
     >
 
     <fragment
-        android:id="@+id/fragmentHome"
-        android:name="com.app.tourism.uis.activity_home.fragments.home_module.FragmentHome"
-        tools:layout="@layout/fragment_home"
+        android:id="@+id/fragmentCamera"
+        android:name="com.app.tourism.uis.activity_home.fragments.camera_module.FragmentCamera"
+        tools:layout="@layout/fragment_camera"
         android:label=""
 
         />

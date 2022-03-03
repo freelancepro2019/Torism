@@ -14,6 +14,12 @@ public class UserModel implements Serializable {
     private String date_of_birth;
     private String car_number;
     private String user_type;
+    // user
+    private int offer_count;
+    //guide
+    private boolean canReceiveOrders;
+    private float rate;
+    private int new_order_count;
 
     public UserModel() {
     }
@@ -30,6 +36,10 @@ public class UserModel implements Serializable {
         this.date_of_birth = date_of_birth;
         this.car_number = car_number;
         this.user_type = user_type;
+        this.canReceiveOrders = true;
+        this.rate = 0.0f;
+        this.new_order_count = 0;
+        this.offer_count = 0;
     }
 
     public String getUser_id() {
@@ -118,5 +128,37 @@ public class UserModel implements Serializable {
 
     public void setUser_type(String user_type) {
         this.user_type = user_type;
+    }
+
+    public boolean isCanReceiveOrders() {
+        return canReceiveOrders;
+    }
+
+    public void setCanReceiveOrders(boolean canReceiveOrders) {
+        this.canReceiveOrders = canReceiveOrders;
+    }
+
+    public int getOffer_count() {
+        return offer_count;
+    }
+
+    public void setOffer_count(int offer_count) {
+        this.offer_count = offer_count;
+    }
+
+    public float getRate() {
+        return rate;
+    }
+
+    public void setRate(float rate) {
+        this.rate = rate;
+    }
+
+    public int getNew_order_count() {
+        return new_order_count;
+    }
+
+    public void setNew_order_count(int new_order_count) {
+        this.new_order_count = new_order_count;
     }
 }

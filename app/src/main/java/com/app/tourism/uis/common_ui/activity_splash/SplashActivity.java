@@ -1,4 +1,4 @@
-package com.app.tourism.uis.activity_splash;
+package com.app.tourism.uis.common_ui.activity_splash;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -8,9 +8,9 @@ import android.os.Bundle;
 
 import com.app.tourism.R;
 import com.app.tourism.databinding.ActivitySplashBinding;
-import com.app.tourism.uis.activity_base.ActivityBase;
+import com.app.tourism.uis.common_ui.activity_base.ActivityBase;
 import com.app.tourism.uis.activity_home.HomeActivity;
-import com.app.tourism.uis.activity_login.LoginActivity;
+import com.app.tourism.uis.common_ui.activity_login.LoginActivity;
 
 import java.util.concurrent.TimeUnit;
 

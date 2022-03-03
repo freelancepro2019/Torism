@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_navigation"
-    app:startDestination="@id/fragmentHome"
+    app:startDestination="@id/fragmentHomeGuide"
     >
 
     <fragment
-        android:id="@+id/fragmentHome"
-        android:name="com.app.tourism.uis.activity_home.fragments.home_module.FragmentHome"
-        tools:layout="@layout/fragment_home"
+        android:id="@+id/fragmentHomeGuide"
+        android:name="com.app.tourism.uis.activity_home.fragments.home_guide_module.FragmentHomeGuide"
+        tools:layout="@layout/fragment_home_guide"
         android:label=""
 
         />

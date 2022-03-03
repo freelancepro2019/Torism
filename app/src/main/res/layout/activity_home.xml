@@ -5,51 +5,38 @@
 
     <data>
         <variable
-            name="title"
-            type="String" />
+            name="model"
+            type="com.app.tourism.models.UserModel" />
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:elevation="0dp"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-
-            >
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text='@{title,default=@string/alerts}'
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-            </androidx.appcompat.widget.Toolbar>
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/navHostFragment"
-            android:name="androidx.navigation.fragment.NavHostFragment"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:defaultNavHost="true"
-            app:navGraph="@navigation/home_graph"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-            />
+            android:orientation="vertical"
+            >
+
+            <com.app.tourism.uis.NonSwipeablePager
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+
+                />
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottomNavigationView"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@color/white"
+                app:elevation="20dp"
+                app:labelVisibilityMode="unlabeled"
+                app:itemIconTint="@drawable/bottom_icon_selection"
+                />
+        </LinearLayout>
+
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

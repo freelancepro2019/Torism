@@ -1,4 +1,4 @@
-package com.app.tourism.uis.activity_login;
+package com.app.tourism.uis.common_ui.activity_login;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -17,9 +17,9 @@ import com.app.tourism.models.LoginModel;
 import com.app.tourism.models.UserModel;
 import com.app.tourism.tags.Common;
 import com.app.tourism.tags.Tags;
-import com.app.tourism.uis.activity_base.ActivityBase;
+import com.app.tourism.uis.common_ui.activity_base.ActivityBase;
 import com.app.tourism.uis.activity_home.HomeActivity;
-import com.app.tourism.uis.activity_sign_up.SignUpActivity;
+import com.app.tourism.uis.common_ui.activity_sign_up.SignUpActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -80,7 +80,8 @@ public class LoginActivity extends ActivityBase {
                     }
 
                 }).addOnFailureListener(e -> {
-                    if (e.getMessage()!=null&&e.getMessage().contains("no user record")){
+
+            if (e.getMessage()!=null&&e.getMessage().contains("no user record")){
                         Toast.makeText(this, R.string.user_not_found, Toast.LENGTH_SHORT).show();
                     }else {
                         Common.createAlertDialog(LoginActivity.this, e.getMessage());
@@ -93,11 +94,12 @@ public class LoginActivity extends ActivityBase {
 
     private void getUserById(String user_id, ProgressDialog dialog) {
         dRef = FirebaseDatabase.getInstance().getReference();
-        dRef.child(Tags.table_patients);
+        dRef.child(Tags.USERS_TABLE);
         dRef.child(user_id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 dialog.dismiss();
+                Log.e("ss",snapshot.toString());
                 if (snapshot.getValue() != null) {
                     UserModel userModel = snapshot.getValue(UserModel.class);
                     if (userModel != null) {

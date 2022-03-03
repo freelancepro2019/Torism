@@ -26,12 +26,30 @@
         <entry key="..\:/works/Courses/work_android/FreeLancer/MedicineAlert/app/src/main/res/layout/medicine_layout.xml" value="0.264" />
         <entry key="..\:/works/Courses/work_android/FreeLancer/MedicineAlert/app/src/main/res/layout/medicine_row.xml" value="0.5028142589118199" />
         <entry key="..\:/works/Courses/work_android/FreeLancer/MedicineAlert/app/src/main/res/menu/menu.xml" value="0.22083333333333333" />
+        <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/drawable/bottom_icon_selection.xml" value="0.24114583333333334" />
         <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/drawable/ic_car.xml" value="0.24114583333333334" />
+        <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/drawable/icon_camera_selection.xml" value="0.24114583333333334" />
+        <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/drawable/icon_home_selection.xml" value="0.24114583333333334" />
+        <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/drawable/icon_profile_selection.xml" value="0.24114583333333334" />
+        <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/layout/activity_home.xml" value="0.2" />
         <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/layout/activity_login.xml" value="0.21654749744637386" />
         <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/layout/activity_sign_up.xml" value="0.22083333333333333" />
         <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/layout/activity_splash.xml" value="0.22083333333333333" />
+        <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/layout/fragment_camera.xml" value="0.22083333333333333" />
+        <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/layout/fragment_camera_base.xml" value="0.22083333333333333" />
         <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/layout/fragment_home.xml" value="0.22083333333333333" />
-        <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/layout/fragment_profile.xml" value="0.22083333333333333" />
+        <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/layout/fragment_home_base.xml" value="0.22083333333333333" />
+        <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/layout/fragment_home_gudie.xml" value="0.22083333333333333" />
+        <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/layout/fragment_home_guide.xml" value="0.22083333333333333" />
+        <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/layout/fragment_home_guide_base.xml" value="0.22083333333333333" />
+        <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/layout/fragment_offers.xml" value="0.22083333333333333" />
+        <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/layout/fragment_profile.xml" value="0.264" />
+        <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/layout/fragment_profile_base.xml" value="0.22083333333333333" />
+        <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/layout/guide_profile_layout.xml" value="0.22083333333333333" />
+        <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/layout/recyclerview_layout.xml" value="0.22083333333333333" />
+        <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/layout/user_profile_layout.xml" value="0.264" />
+        <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/menu/bottom_navigation_guide_menu.xml" value="0.22083333333333333" />
+        <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.22083333333333333" />
       </map>
     </option>
   </component>

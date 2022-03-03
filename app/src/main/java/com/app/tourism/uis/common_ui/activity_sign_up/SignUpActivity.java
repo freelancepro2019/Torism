@@ -1,4 +1,4 @@
-package com.app.tourism.uis.activity_sign_up;
+package com.app.tourism.uis.common_ui.activity_sign_up;
 
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
@@ -6,7 +6,6 @@ import androidx.databinding.DataBindingUtil;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.app.tourism.R;
@@ -15,7 +14,7 @@ import com.app.tourism.models.SignUpModel;
 import com.app.tourism.models.UserModel;
 import com.app.tourism.tags.Common;
 import com.app.tourism.tags.Tags;
-import com.app.tourism.uis.activity_base.ActivityBase;
+import com.app.tourism.uis.common_ui.activity_base.ActivityBase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -139,7 +138,7 @@ public class SignUpActivity extends ActivityBase implements DatePickerDialog.OnD
     private void signUp(String user_id, ProgressDialog dialog) {
         UserModel userModel = new UserModel(user_id, model.getFirstName(), model.getLastName(), model.getPhoneCode(), model.getPhone(), model.getEmail(), model.getPassword(),model.getGender(),model.getBirthDate(),model.getCarNumber(),model.getUserType());
         dRef = FirebaseDatabase.getInstance().getReference();
-        dRef.child(Tags.table_patients)
+        dRef.child(Tags.USERS_TABLE)
                 .child(user_id)
                 .setValue(userModel)
                 .addOnSuccessListener(unused -> {

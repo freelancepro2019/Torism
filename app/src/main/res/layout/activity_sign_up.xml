@@ -23,7 +23,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context=".uis.activity_login.LoginActivity"
+                tools:context=".uis.common_ui.activity_login.LoginActivity"
                 android:padding="16dp"
                 >
                 <TextView
