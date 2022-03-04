@@ -21,6 +21,13 @@ public class GeneralMethod {
         }
     }
 
+    @BindingAdapter({"f_name","l_name"})
+    public static void userImage(TextView textView ,String f_name,String l_name){
+        if (f_name!=null&&!f_name.isEmpty()&&l_name!=null&&!l_name.isEmpty()){
+            String name = f_name.charAt(0)+""+l_name.charAt(0);
+            textView.setText(name);
+        }
+    }
 
 
 }

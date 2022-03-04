@@ -25,6 +25,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends ActivityBase {
@@ -94,21 +95,23 @@ public class LoginActivity extends ActivityBase {
 
     private void getUserById(String user_id, ProgressDialog dialog) {
         dRef = FirebaseDatabase.getInstance().getReference();
-        dRef.child(Tags.USERS_TABLE);
-        dRef.child(user_id).addListenerForSingleValueEvent(new ValueEventListener() {
+        Query query = dRef.child(Tags.USERS_TABLE)
+                .orderByChild("user_id")
+                .equalTo(user_id);
+
+        query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 dialog.dismiss();
-                Log.e("ss",snapshot.toString());
-                if (snapshot.getValue() != null) {
-                    UserModel userModel = snapshot.getValue(UserModel.class);
+                if(snapshot.getValue()!=null){
+                   UserModel userModel = snapshot.child(user_id).getValue(UserModel.class);
                     if (userModel != null) {
                         setUserModel(userModel);
                         navigateToHomeActivity();
                     } else {
                         Common.createAlertDialog(LoginActivity.this, getString(R.string.error_msg));
                     }
-                } else {
+                }else {
                     Toast.makeText(LoginActivity.this, R.string.user_not_found, Toast.LENGTH_SHORT).show();
 
                 }
@@ -116,10 +119,13 @@ public class LoginActivity extends ActivityBase {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
                 Log.e("error_login", error.getMessage());
+
             }
         });
+
+
+
     }
 
     private void navigateToHomeActivity() {

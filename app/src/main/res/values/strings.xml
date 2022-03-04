@@ -46,4 +46,5 @@
     <string name="new_orders">الطلبات الجديدة</string>
     <string name="search_for_guides">البحث عن مرشد سياحي...</string>
     <string name="most_rated">الاكثر تقييما</string>
+    <string name="no_guide">لا يوجد مرشدين سياحين لعرضهم</string>
 </resources>
