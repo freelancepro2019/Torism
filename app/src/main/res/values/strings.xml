@@ -47,4 +47,23 @@
     <string name="search_for_guides">البحث عن مرشد سياحي...</string>
     <string name="most_rated">الاكثر تقييما</string>
     <string name="no_guide">لا يوجد مرشدين سياحين لعرضهم</string>
+    <string name="add_request">طلب مرشد سياحي</string>
+    <string name="from_location">موقعي(العنوان)</string>
+    <string name="journey_details">إكتب هنا تفاصيل الرحلة....</string>
+    <string name="booking_date">تاريخ الحجز</string>
+    <string name="booking_time">الموعد</string>
+    <string name="book_now">إحجز الان</string>
+    <string name="cnt_receive_order">لا يمكنة استقبال الطلبات الان.</string>
+    <string name="sorry">عفوا!</string>
+    <string name="offer">عرض جديد</string>
+    <string name="accept">قبول</string>
+    <string name="refuse">رفض</string>
+    <string name="no_orders">لا توجد طلبات لعرضها</string>
+    <string name="sar">ر.س</string>
+    <string name="completed">مكتملة</string>
+    <string name="refused">مرفوضة</string>
+    <string name="no_offer">لا يوجد عرض</string>
+    <string name="status_new">جديد</string>
+    <string name="add_rate">إضافة تقييم</string>
+
 </resources>

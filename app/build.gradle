@@ -61,5 +61,8 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:2.4.1"
     implementation "androidx.navigation:navigation-fragment:2.4.1"
     implementation "androidx.navigation:navigation-ui:2.4.1"
+    implementation 'com.github.ybq:Android-SpinKit:1.4.0'
+    implementation 'com.github.FlyingPumba:SimpleRatingBar:v0.1.5'
+
 }
 

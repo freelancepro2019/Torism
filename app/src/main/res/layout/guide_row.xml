@@ -1,93 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
             name="model"
             type="com.app.tourism.models.UserModel" />
+
         <variable
             name="lang"
             type="String" />
 
 
     </data>
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        app:cardCornerRadius="40dp"
+        android:layout_margin="8dp"
         app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="40dp"
         app:cardElevation="2dp"
         app:contentPadding="8dp"
-        android:layout_margin="8dp"
 
         >
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
             android:gravity="center_vertical"
-            >
+            android:orientation="horizontal">
+
             <androidx.legacy.widget.Space
                 android:layout_width="8dp"
-                android:layout_height="0dp"/>
+                android:layout_height="0dp" />
+
             <FrameLayout
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@drawable/circle_stroke_gray"
-                >
+                android:background="@drawable/circle_stroke_gray">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_gravity="center"
                     f_name="@{model.first_name}"
                     l_name="@{model.last_name}"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:textColor="@color/colorPrimary"
-                    />
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
 
             </FrameLayout>
 
             <androidx.legacy.widget.Space
                 android:layout_width="16dp"
-                android:layout_height="0dp"/>
+                android:layout_height="0dp" />
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                >
-                <TextView
-                    android:layout_width="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:maxEms="5"
-                    android:lines="1"
-                    android:ellipsize="end"
-                    android:text='@{model.first_name+" "+model.last_name}'
-                    />
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:lines="1"
+                        android:maxEms="5"
+                        android:text='@{model.first_name+" "+model.last_name}'
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <androidx.legacy.widget.Space
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:padding="3dp"
+                        android:src="@drawable/ic_star" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginEnd="3dp"
+                        android:text='@{"("+model.rate+")"}'
+                        android:textColor="@color/rate"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:textSize="14sp"
-                    android:textColor="@color/black"
                     android:text='@{model.phone_code+model.phone}'
-                    />
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_arrow_left"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:rotation='@{lang.equals("ar")?0:180}'
+                android:src="@drawable/ic_arrow_left"
 
                 />
         </LinearLayout>

@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.app.tourism.R;
 import com.app.tourism.databinding.FragmentProfileBinding;
+import com.app.tourism.models.OfferModel;
 import com.app.tourism.models.UserModel;
 import com.app.tourism.tags.Common;
 import com.app.tourism.tags.Tags;
@@ -30,6 +31,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 public class FragmentProfile extends FragmentBase {
@@ -58,7 +60,7 @@ public class FragmentProfile extends FragmentBase {
 
     private void initView() {
         dRef = FirebaseDatabase.getInstance().getReference();
-        ;
+
         binding.setLang(getLang());
         binding.setModel(getUserModel());
         binding.userLayout.setLang(getLang());
@@ -87,50 +89,64 @@ public class FragmentProfile extends FragmentBase {
         });
     }
 
-
-
     private void getOfferCount() {
-        dRef.child(Tags.USERS_TABLE)
-                .child(getUserModel().getUser_id())
-                .child("offer_count")
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.getValue() != null) {
-                            binding.userLayout.setCounter(snapshot.getValue().toString());
-
-                        } else {
-                            binding.userLayout.setCounter("0");
+        Query query = dRef.child(Tags.ORDERS_TABLE)
+                .orderByChild("user_id")
+                .equalTo(getUserModel().getUser_id());
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.getValue() != null) {
+                    int count = 0;
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        OfferModel offerModel = ds.getValue(OfferModel.class);
+                        if (offerModel != null && offerModel.getOrder_status().equals(Tags.status_accepted)) {
+                            count++;
                         }
                     }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                    binding.userLayout.setCounter(count + "");
 
-                    }
-                });
+                } else {
+                    binding.userLayout.setCounter("0");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void getNewOrderCount() {
-        dRef.child(Tags.USERS_TABLE)
-                .child(getUserModel().getUser_id())
-                .child("new_order_count")
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.getValue() != null) {
-                            binding.guideLayout.setCounter(snapshot.getValue().toString());
-
-                        } else {
-                            binding.guideLayout.setCounter("0");
+        Query query = dRef.child(Tags.ORDERS_TABLE)
+                .orderByChild("user_id")
+                .equalTo(getUserModel().getUser_id());
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.getValue() != null) {
+                    int count = 0;
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        OfferModel offerModel = ds.getValue(OfferModel.class);
+                        if (offerModel != null && offerModel.getOrder_status().equals(Tags.status_new)) {
+                            count++;
                         }
                     }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                    binding.guideLayout.setCounter(count + "");
 
-                    }
-                });
+                } else {
+                    binding.guideLayout.setCounter("0");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void getRate() {
@@ -141,7 +157,8 @@ public class FragmentProfile extends FragmentBase {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.getValue() != null) {
-                            binding.setRate(snapshot.getValue().toString());
+                            long rate = (long) snapshot.getValue();
+                            binding.setRate(rate+"");
 
                         } else {
                             binding.setRate("0");
@@ -156,7 +173,7 @@ public class FragmentProfile extends FragmentBase {
     }
 
     private void updateGuideStatus(boolean checked) {
-        ProgressDialog dialog = Common.createProgressDialog(activity,getString(R.string.wait));
+        ProgressDialog dialog = Common.createProgressDialog(activity, getString(R.string.wait));
         dialog.setCancelable(false);
         dialog.show();
 
@@ -180,5 +197,6 @@ public class FragmentProfile extends FragmentBase {
 
         });
     }
+
 
 }

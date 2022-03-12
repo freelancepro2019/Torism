@@ -9,6 +9,7 @@ import androidx.databinding.ObservableField;
 
 import com.app.tourism.BR;
 import com.app.tourism.R;
+import com.app.tourism.tags.Tags;
 
 import java.io.Serializable;
 
@@ -40,8 +41,8 @@ public class SignUpModel extends BaseObservable implements Serializable {
         password = "";
         birthDate ="";
         carNumber ="";
-        gender = "male";
-        userType ="normal";
+        gender = Tags.male;
+        userType = Tags.user_normal;
 
     }
 

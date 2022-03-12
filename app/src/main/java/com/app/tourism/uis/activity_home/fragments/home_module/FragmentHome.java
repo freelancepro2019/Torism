@@ -1,6 +1,7 @@
 package com.app.tourism.uis.activity_home.fragments.home_module;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,7 @@ import com.app.tourism.adapters.GuideAdapter;
 import com.app.tourism.databinding.FragmentHomeBinding;
 import com.app.tourism.models.UserModel;
 import com.app.tourism.tags.Tags;
+import com.app.tourism.uis.activity_send_order.SendOrderActivity;
 import com.app.tourism.uis.common_ui.activity_base.FragmentBase;
 import com.app.tourism.uis.activity_home.HomeActivity;
 import com.google.firebase.database.DataSnapshot;
@@ -61,7 +63,7 @@ public class FragmentHome extends FragmentBase {
     private void initView() {
         dRef = FirebaseDatabase.getInstance().getReference();
         binding.recViewLayout.recView.setLayoutManager(new LinearLayoutManager(activity));
-        adapter = new GuideAdapter(activity,getLang());
+        adapter = new GuideAdapter(activity,getLang(),this);
         binding.recViewLayout.recView.setAdapter(adapter);
         binding.recViewLayout.swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
         binding.recViewLayout.swipeRefresh.setOnRefreshListener(this::getGuides);
@@ -107,7 +109,13 @@ public class FragmentHome extends FragmentBase {
     }
 
     private List<UserModel> sortedList(List<UserModel> list) {
-        Collections.sort(list, (m1, m2) -> Double.compare(m1.getRate(),m2.getRate()));
+        Collections.sort(list, (m1, m2) -> Double.compare(m2.getRate(),m1.getRate()));
         return list;
+    }
+
+    public void setItemData(UserModel guideModel) {
+        Intent intent = new Intent(activity, SendOrderActivity.class);
+        intent.putExtra("data",guideModel);
+        startActivity(intent);
     }
 }
