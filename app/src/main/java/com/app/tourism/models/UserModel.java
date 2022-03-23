@@ -137,7 +137,7 @@ public class UserModel implements Serializable {
     }
 
 
-    public float getRate() {
+    public int getRate() {
         return rate;
     }
 

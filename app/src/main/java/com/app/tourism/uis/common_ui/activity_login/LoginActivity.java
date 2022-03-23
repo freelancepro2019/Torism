@@ -99,7 +99,7 @@ public class LoginActivity extends ActivityBase {
                 .orderByChild("user_id")
                 .equalTo(user_id);
 
-        query.addValueEventListener(new ValueEventListener() {
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 dialog.dismiss();

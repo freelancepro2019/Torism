@@ -1,6 +1,7 @@
 package com.app.tourism.uis.activity_home.fragments.home_module;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,7 @@ import com.app.tourism.databinding.FragmentSearchBinding;
 import com.app.tourism.models.UserModel;
 import com.app.tourism.tags.Tags;
 import com.app.tourism.uis.activity_home.HomeActivity;
+import com.app.tourism.uis.activity_send_order.SendOrderActivity;
 import com.app.tourism.uis.common_ui.activity_base.FragmentBase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -138,6 +140,12 @@ public class FragmentSearch extends FragmentBase {
                         Toast.makeText(activity, error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    public void setItemData(UserModel guideModel) {
+        Intent intent = new Intent(activity, SendOrderActivity.class);
+        intent.putExtra("data",guideModel);
+        startActivity(intent);
     }
 
 

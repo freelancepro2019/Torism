@@ -15,7 +15,10 @@ import com.app.tourism.models.UserModel;
 import com.app.tourism.tags.Common;
 import com.app.tourism.tags.Tags;
 import com.app.tourism.uis.common_ui.activity_base.ActivityBase;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -24,7 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class SignUpActivity extends ActivityBase implements DatePickerDialog.OnDateSetListener{
+public class SignUpActivity extends ActivityBase implements DatePickerDialog.OnDateSetListener {
     private ActivitySignUpBinding binding;
     private SignUpModel model;
     private FirebaseAuth mAuth;
@@ -40,6 +43,31 @@ public class SignUpActivity extends ActivityBase implements DatePickerDialog.OnD
 
     private void initView() {
         model = new SignUpModel();
+        if (getUserModel() != null) {
+            model.setFirstName(getUserModel().getFirst_name());
+            model.setLastName(getUserModel().getLast_name());
+            model.setPhoneCode(getUserModel().getPhone_code());
+            model.setPhone(getUserModel().getPhone());
+            model.setBirthDate(getUserModel().getDate_of_birth());
+            model.setUserType(getUserModel().getUser_type());
+            model.setEmail(getUserModel().getEmail());
+            model.setPassword(getUserModel().getPassword());
+            model.setCarNumber(getUserModel().getCar_number());
+
+            if (getUserModel().getUser_type().equals(Tags.user_guide)){
+                binding.tiCarNumber.setVisibility(View.VISIBLE);
+            }
+            binding.consUserType.setVisibility(View.GONE);
+            binding.tv.setText(R.string.update_profile);
+            binding.btnSignUp.setText(R.string.update_profile);
+            binding.llLogin.setVisibility(View.GONE);
+            if (getUserModel().getGender().equals(Tags.male)) {
+                binding.rbMale.setChecked(true);
+            } else {
+                binding.rbFemale.setChecked(true);
+            }
+
+        }
         binding.setModel(model);
 
         binding.llLogin.setOnClickListener(view -> {
@@ -48,17 +76,22 @@ public class SignUpActivity extends ActivityBase implements DatePickerDialog.OnD
 
         binding.btnSignUp.setOnClickListener(view -> {
             if (model.isDataValid(this)) {
-                createAccount();
+                if (getUserModel() == null) {
+                    createAccount();
+
+                } else {
+                    reAuth();
+                }
             }
         });
 
         binding.rbMale.setOnCheckedChangeListener((compoundButton, b) -> {
-            if (b){
+            if (b) {
                 model.setGender(Tags.male);
             }
         });
         binding.rbFemale.setOnCheckedChangeListener((compoundButton, b) -> {
-            if (b){
+            if (b) {
                 model.setGender(Tags.female);
             }
         });
@@ -66,13 +99,13 @@ public class SignUpActivity extends ActivityBase implements DatePickerDialog.OnD
         binding.cardTourist.setOnClickListener(view -> {
             binding.tiCarNumber.setVisibility(View.GONE);
 
-            binding.cardTourist.setCardBackgroundColor(ContextCompat.getColor(this,R.color.colorPrimary));
-            binding.imageTourist.setColorFilter(ContextCompat.getColor(this,R.color.white));
-            binding.tvTourist.setTextColor(ContextCompat.getColor(this,R.color.white));
+            binding.cardTourist.setCardBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
+            binding.imageTourist.setColorFilter(ContextCompat.getColor(this, R.color.white));
+            binding.tvTourist.setTextColor(ContextCompat.getColor(this, R.color.white));
 
-            binding.cardTouristGuide.setCardBackgroundColor(ContextCompat.getColor(this,R.color.white));
-            binding.imageGuide.setColorFilter(ContextCompat.getColor(this,R.color.black));
-            binding.tvGuide.setTextColor(ContextCompat.getColor(this,R.color.black));
+            binding.cardTouristGuide.setCardBackgroundColor(ContextCompat.getColor(this, R.color.white));
+            binding.imageGuide.setColorFilter(ContextCompat.getColor(this, R.color.black));
+            binding.tvGuide.setTextColor(ContextCompat.getColor(this, R.color.black));
 
             model.setUserType(Tags.user_normal);
 
@@ -80,14 +113,14 @@ public class SignUpActivity extends ActivityBase implements DatePickerDialog.OnD
 
         binding.cardTouristGuide.setOnClickListener(view -> {
             binding.tiCarNumber.setVisibility(View.VISIBLE);
-            binding.cardTouristGuide.setCardBackgroundColor(ContextCompat.getColor(this,R.color.colorPrimary));
-            binding.imageGuide.setColorFilter(ContextCompat.getColor(this,R.color.white));
-            binding.tvGuide.setTextColor(ContextCompat.getColor(this,R.color.white));
+            binding.cardTouristGuide.setCardBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
+            binding.imageGuide.setColorFilter(ContextCompat.getColor(this, R.color.white));
+            binding.tvGuide.setTextColor(ContextCompat.getColor(this, R.color.white));
 
 
-            binding.cardTourist.setCardBackgroundColor(ContextCompat.getColor(this,R.color.white));
-            binding.imageTourist.setColorFilter(ContextCompat.getColor(this,R.color.black));
-            binding.tvTourist.setTextColor(ContextCompat.getColor(this,R.color.black));
+            binding.cardTourist.setCardBackgroundColor(ContextCompat.getColor(this, R.color.white));
+            binding.imageTourist.setColorFilter(ContextCompat.getColor(this, R.color.black));
+            binding.tvTourist.setTextColor(ContextCompat.getColor(this, R.color.black));
 
 
             model.setUserType(Tags.user_guide);
@@ -101,16 +134,16 @@ public class SignUpActivity extends ActivityBase implements DatePickerDialog.OnD
 
     private void createDateDialog() {
         Calendar now = Calendar.getInstance();
-        datePickerDialog = DatePickerDialog.newInstance(this,now.get(Calendar.YEAR),now.get(Calendar.MONTH),now.get(Calendar.DAY_OF_MONTH));
-        datePickerDialog.setAccentColor(ContextCompat.getColor(this,R.color.colorPrimary));
+        datePickerDialog = DatePickerDialog.newInstance(this, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.setAccentColor(ContextCompat.getColor(this, R.color.colorPrimary));
         datePickerDialog.setTitle(getString(R.string.date_of_birth));
         datePickerDialog.setMaxDate(now);
-        datePickerDialog.setCancelColor(ContextCompat.getColor(this,R.color.gray4));
+        datePickerDialog.setCancelColor(ContextCompat.getColor(this, R.color.gray4));
         datePickerDialog.setCancelText(getString(R.string.cancel));
-        datePickerDialog.setOkColor(ContextCompat.getColor(this,R.color.colorPrimary));
+        datePickerDialog.setOkColor(ContextCompat.getColor(this, R.color.colorPrimary));
         datePickerDialog.setOkText(R.string.select);
         datePickerDialog.setVersion(DatePickerDialog.Version.VERSION_2);
-        datePickerDialog.show(getFragmentManager(),"");
+        datePickerDialog.show(getFragmentManager(), "");
     }
 
     private void createAccount() {
@@ -136,10 +169,69 @@ public class SignUpActivity extends ActivityBase implements DatePickerDialog.OnD
     }
 
     private void signUp(String user_id, ProgressDialog dialog) {
-        UserModel userModel = new UserModel(user_id, model.getFirstName(), model.getLastName(), model.getPhoneCode(), model.getPhone(), model.getEmail(), model.getPassword(),model.getGender(),model.getBirthDate(),model.getCarNumber(),model.getUserType());
+        UserModel userModel = new UserModel(user_id, model.getFirstName(), model.getLastName(), model.getPhoneCode(), model.getPhone(), model.getEmail(), model.getPassword(), model.getGender(), model.getBirthDate(), model.getCarNumber(), model.getUserType());
         dRef = FirebaseDatabase.getInstance().getReference();
         dRef.child(Tags.USERS_TABLE)
                 .child(user_id)
+                .setValue(userModel)
+                .addOnSuccessListener(unused -> {
+                    dialog.dismiss();
+                    setUserModel(userModel);
+                    setResult(RESULT_OK);
+                    finish();
+                }).addOnFailureListener(e -> {
+            dialog.dismiss();
+            Common.createAlertDialog(this, e.getMessage());
+        });
+    }
+
+    private void reAuth() {
+        ProgressDialog dialog = Common.createProgressDialog(this, getString(R.string.wait));
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            AuthCredential credential = EmailAuthProvider.getCredential(getUserModel().getEmail(), getUserModel().getPassword());
+            currentUser.reauthenticate(credential).addOnSuccessListener(unused -> {
+
+
+                currentUser.updateEmail(model.getEmail())
+                        .addOnSuccessListener(unused1 -> {
+                            currentUser.updatePassword(model.getPassword())
+                                    .addOnSuccessListener(unused2 -> {
+                                        updateProfile(dialog);
+                                    }).addOnFailureListener(e -> {
+                                dialog.dismiss();
+                                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                            });
+                        }).addOnFailureListener(e -> {
+                    dialog.dismiss();
+                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                });
+
+            }).addOnFailureListener(e -> {
+                dialog.dismiss();
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            });
+        } else {
+            Toast.makeText(this, "Session expired login again", Toast.LENGTH_SHORT).show();
+
+        }
+
+    }
+
+    private void updateProfile(ProgressDialog dialog) {
+        UserModel userModel = new UserModel(getUserModel().getUser_id(), model.getFirstName(), model.getLastName(), model.getPhoneCode(), model.getPhone(), model.getEmail(), model.getPassword(), model.getGender(), model.getBirthDate(), model.getCarNumber(), model.getUserType());
+        userModel.setRate(getUserModel().getRate());
+        userModel.setCanReceiveOrders(getUserModel().isCanReceiveOrders());
+        dRef = FirebaseDatabase.getInstance().getReference();
+        dRef.child(Tags.USERS_TABLE)
+                .child(getUserModel().getUser_id())
                 .setValue(userModel)
                 .addOnSuccessListener(unused -> {
                     dialog.dismiss();
@@ -160,14 +252,14 @@ public class SignUpActivity extends ActivityBase implements DatePickerDialog.OnD
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         Calendar calendar = Calendar.getInstance();
         Calendar now = Calendar.getInstance();
-        calendar.set(Calendar.YEAR,year);
-        calendar.set(Calendar.MONTH,monthOfYear);
-        calendar.set(Calendar.DAY_OF_MONTH,dayOfMonth);
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, monthOfYear);
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         SimpleDateFormat df = new SimpleDateFormat("dd/MMM/yyyy", Locale.ENGLISH);
         String dateOfBirth = df.format(calendar.getTime());
         model.setBirthDate(dateOfBirth);
-        int age = Math.abs(now.get(Calendar.YEAR)-calendar.get(Calendar.YEAR));
-        binding.tvAge.setText(age+"");
+        int age = Math.abs(now.get(Calendar.YEAR) - calendar.get(Calendar.YEAR));
+        binding.tvAge.setText(age + "");
         binding.setModel(model);
     }
 }

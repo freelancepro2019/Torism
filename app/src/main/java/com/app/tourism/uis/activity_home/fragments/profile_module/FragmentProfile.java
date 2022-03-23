@@ -1,9 +1,13 @@
 package com.app.tourism.uis.activity_home.fragments.profile_module;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -25,6 +29,7 @@ import com.app.tourism.tags.Common;
 import com.app.tourism.tags.Tags;
 import com.app.tourism.uis.common_ui.activity_base.FragmentBase;
 import com.app.tourism.uis.activity_home.HomeActivity;
+import com.app.tourism.uis.common_ui.activity_sign_up.SignUpActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -38,11 +43,18 @@ public class FragmentProfile extends FragmentBase {
     private FragmentProfileBinding binding;
     private HomeActivity activity;
     private DatabaseReference dRef;
+    private ActivityResultLauncher<Intent> launcher;
+    private int req;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         activity = (HomeActivity) context;
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (req == 1 && result.getResultCode() == Activity.RESULT_OK) {
+                binding.setModel(getUserModel());
+            }
+        });
     }
 
     @Override
@@ -90,6 +102,18 @@ public class FragmentProfile extends FragmentBase {
 
         binding.userLayout.llFavorite.setOnClickListener(view -> {
            Navigation.findNavController(view).navigate(R.id.fragmentFavorite);
+        });
+
+        binding.userLayout.llUpdateProfile.setOnClickListener(view -> {
+            req = 1;
+            Intent intent = new Intent(activity, SignUpActivity.class);
+            launcher.launch(intent);
+        });
+
+        binding.guideLayout.llUpdateProfile.setOnClickListener(view -> {
+            req = 1;
+            Intent intent = new Intent(activity, SignUpActivity.class);
+            launcher.launch(intent);
         });
     }
 

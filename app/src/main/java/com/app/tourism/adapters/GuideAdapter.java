@@ -13,6 +13,7 @@ import com.app.tourism.R;
 import com.app.tourism.databinding.GuideRowBinding;
 import com.app.tourism.models.UserModel;
 import com.app.tourism.uis.activity_home.fragments.home_module.FragmentHome;
+import com.app.tourism.uis.activity_home.fragments.home_module.FragmentSearch;
 
 import java.util.List;
 
@@ -49,6 +50,9 @@ public class GuideAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             if (fragment instanceof FragmentHome){
                 FragmentHome fragmentHome = (FragmentHome) fragment;
                 fragmentHome.setItemData(list.get(myHolder.getAdapterPosition()));
+            }else if (fragment instanceof FragmentSearch){
+                FragmentSearch fragmentSearch = (FragmentSearch) fragment;
+                fragmentSearch.setItemData(list.get(myHolder.getAdapterPosition()));
             }
         });
 
