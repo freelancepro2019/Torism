@@ -4,6 +4,7 @@ public class Tags {
     public static final String USERS_TABLE = "Users";
     public static final String ORDERS_TABLE = "Orders";
     public static final String RATES_TABLE = "Rates";
+    public static final String FAVORITE_TABLE = "FavoriteGuides";
 
     public static final String male = "male";
     public static final String female = "female";

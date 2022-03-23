@@ -6,6 +6,7 @@ public class UserModel implements Serializable {
     private String user_id;
     private String first_name;
     private String last_name;
+    private String full_name;
     private String phone_code;
     private String phone;
     private String email;
@@ -35,6 +36,7 @@ public class UserModel implements Serializable {
         this.user_type = user_type;
         this.canReceiveOrders = true;
         this.rate = 0;
+        this.full_name = first_name+" "+last_name;
 
     }
 
@@ -143,5 +145,11 @@ public class UserModel implements Serializable {
         this.rate = rate;
     }
 
+    public String getFull_name() {
+        return full_name;
+    }
 
+    public void setFull_name(String full_name) {
+        this.full_name = full_name;
+    }
 }

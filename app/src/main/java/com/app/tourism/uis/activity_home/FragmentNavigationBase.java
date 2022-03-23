@@ -1,8 +1,10 @@
 package com.app.tourism.uis.activity_home;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,6 +79,7 @@ public class FragmentNavigationBase extends FragmentBase {
         initView();
     }
 
+    @SuppressLint("SetTextI18n")
     private void initView() {
         if (navHostId != -1 && layoutRecourseId != -1) {
 
@@ -90,6 +93,12 @@ public class FragmentNavigationBase extends FragmentBase {
                     tvTitle.setText(R.string.profile);
                 }else if (id==R.id.fragmentOffers){
                     tvTitle.setText(R.string.offers);
+                }else if (id==R.id.searchFragment){
+                    tvTitle.setText(R.string.search);
+                }else if (id==R.id.fragmentHome){
+                    tvTitle.setText(R.string.home);
+                }else if (id==R.id.fragmentFavorite){
+                    tvTitle.setText(R.string.favorite);
                 }
             });
         }

@@ -79,13 +79,17 @@ public class FragmentProfile extends FragmentBase {
         if (getUserModel().getUser_type().equals(Tags.user_normal)) {
             getOfferCount();
         } else {
-            getNewOrderCount();
+            //getNewOrderCount();
             getRate();
         }
 
         binding.guideLayout.switchBtn.setOnClickListener(view -> {
             boolean checked = binding.guideLayout.switchBtn.isChecked();
             updateGuideStatus(checked);
+        });
+
+        binding.userLayout.llFavorite.setOnClickListener(view -> {
+           Navigation.findNavController(view).navigate(R.id.fragmentFavorite);
         });
     }
 
@@ -119,6 +123,7 @@ public class FragmentProfile extends FragmentBase {
         });
     }
 
+/*
     private void getNewOrderCount() {
         Query query = dRef.child(Tags.ORDERS_TABLE)
                 .orderByChild("user_id")
@@ -148,6 +153,7 @@ public class FragmentProfile extends FragmentBase {
             }
         });
     }
+*/
 
     private void getRate() {
         dRef.child(Tags.USERS_TABLE)

@@ -65,5 +65,15 @@
     <string name="no_offer">لا يوجد عرض</string>
     <string name="status_new">جديد</string>
     <string name="add_rate">إضافة تقييم</string>
+    <string name="accepted">تم القبول</string>
+    <string name="end">إنهاء الرحلة</string>
+    <string name="no_search_result">لا توجد نتائج للبحث</string>
+    <string name="search_result">نتائج البحث</string>
+    <string name="search">البحث</string>
+    <string name="fav">المفضلة</string>
+    <string name="unfav">إلغاء المفضلة</string>
+    <string name="already_fav">تم الإضافة الى المفضلة من قبل</string>
+    <string name="no_fav">لا توجد مفضلة</string>
+
 
 </resources>

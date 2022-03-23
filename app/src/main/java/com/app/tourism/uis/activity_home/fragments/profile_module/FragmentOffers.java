@@ -2,6 +2,8 @@ package com.app.tourism.uis.activity_home.fragments.profile_module;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,7 @@ import com.app.tourism.adapters.UserOrderAdapter;
 import com.app.tourism.databinding.BottomSheetRateBinding;
 import com.app.tourism.databinding.FragmentHomeBinding;
 import com.app.tourism.databinding.FragmentOffersBinding;
+import com.app.tourism.models.FavoriteModel;
 import com.app.tourism.models.OfferModel;
 import com.app.tourism.models.RateModel;
 import com.app.tourism.tags.Common;
@@ -65,6 +68,7 @@ public class FragmentOffers extends FragmentBase {
 
     private void initView() {
         binding.recViewLayout.tvNoData.setText(R.string.no_orders);
+        binding.recViewLayout.tvNoData.setVisibility(View.GONE);
         adapter = new UserOrderAdapter(activity, this);
         binding.recViewLayout.recView.setLayoutManager(new LinearLayoutManager(activity));
         binding.recViewLayout.recView.setAdapter(adapter);
@@ -73,6 +77,7 @@ public class FragmentOffers extends FragmentBase {
     }
 
     private void getOffers() {
+        binding.recViewLayout.swipeRefresh.setRefreshing(true);
         dRef = FirebaseDatabase.getInstance().getReference();
         Query query = dRef.child(Tags.ORDERS_TABLE)
                 .orderByChild("user_id")
@@ -130,8 +135,69 @@ public class FragmentOffers extends FragmentBase {
             dialog.dismiss();
 
         });
+
+        binding.imageFavorite.setOnClickListener(view -> {
+            checkIsGuideInMyFavorite(model);
+        });
         dialog.show();
 
+    }
+
+    private void checkIsGuideInMyFavorite(OfferModel model) {
+        dRef = FirebaseDatabase.getInstance().getReference();
+        Query query = dRef.child(Tags.FAVORITE_TABLE)
+                .orderByChild("user_id")
+                .equalTo(getUserModel().getUser_id());
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                boolean isInMyFavorite = false;
+                if (snapshot.getValue() == null) {
+                    addToFavorite(model);
+                } else {
+
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        FavoriteModel favoriteModel = ds.getValue(FavoriteModel.class);
+                        if (favoriteModel != null) {
+                            if (favoriteModel.getGuide_id().equals(model.getGuide_id())) {
+                                isInMyFavorite = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (isInMyFavorite) {
+                        Toast.makeText(activity, R.string.already_fav, Toast.LENGTH_SHORT).show();
+
+                    } else {
+                        addToFavorite(model);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void addToFavorite(OfferModel model) {
+        ProgressDialog dialog = Common.createProgressDialog(activity, getString(R.string.wait));
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+        dRef = FirebaseDatabase.getInstance().getReference();
+        String id = dRef.child(Tags.FAVORITE_TABLE).push().getKey();
+        FavoriteModel favoriteModel = new FavoriteModel(id, getUserModel().getUser_id(), model.getGuide_id(), model.getGuide_name(), model.getGuide_phone());
+        dRef.child(Tags.FAVORITE_TABLE).child(id)
+                .setValue(favoriteModel)
+                .addOnSuccessListener(unused -> {
+                    dialog.dismiss();
+                    Toast.makeText(activity, R.string.fav, Toast.LENGTH_SHORT).show();
+                }).addOnFailureListener(e -> {
+            Toast.makeText(activity, e.getMessage(), Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
+        });
     }
 
     private void addRate(OfferModel model, int rate, int adapterPosition) {
@@ -156,6 +222,7 @@ public class FragmentOffers extends FragmentBase {
     }
 
     private void updateGuideRate(OfferModel model, ProgressDialog dialog) {
+        dRef = FirebaseDatabase.getInstance().getReference();
         Query query = dRef.child(Tags.RATES_TABLE)
                 .orderByChild("guide_id")
                 .equalTo(model.getGuide_id());
@@ -172,7 +239,7 @@ public class FragmentOffers extends FragmentBase {
                     }
 
                     int rate = (int) (count / total);
-                    updateUserRate(rate,model, dialog);
+                    updateUserRate(rate, model, dialog);
 
                 } else {
                     dialog.dismiss();
@@ -186,7 +253,8 @@ public class FragmentOffers extends FragmentBase {
         });
     }
 
-    private void updateUserRate(int rate,OfferModel model, ProgressDialog dialog) {
+    private void updateUserRate(int rate, OfferModel model, ProgressDialog dialog) {
+        dRef = FirebaseDatabase.getInstance().getReference();
         dRef.child(Tags.USERS_TABLE)
                 .child(model.getGuide_id())
                 .child("rate")
@@ -201,4 +269,8 @@ public class FragmentOffers extends FragmentBase {
 
     }
 
+    public void call(String phone) {
+        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
+        startActivity(intent);
+    }
 }

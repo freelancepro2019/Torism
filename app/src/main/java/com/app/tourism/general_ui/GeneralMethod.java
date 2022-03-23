@@ -35,6 +35,15 @@ public class GeneralMethod {
         }
     }
 
+    @BindingAdapter("image")
+    public static void userImage2(TextView textView ,String image){
+        if (image!=null&&!image.isEmpty()){
+            String[] s = image.split(" ");
+            String name = s[0].charAt(0)+""+s[1].charAt(0);
+            textView.setText(name);
+        }
+    }
+
     @BindingAdapter("order_status")
     public static void orderStatus(TextView textView ,String order_status){
         if (order_status!=null){
@@ -48,6 +57,23 @@ public class GeneralMethod {
 
             }else if (order_status.equals(Tags.status_rated)){
                 textView.setText(R.string.completed);
+
+            }else {
+                textView.setText(R.string.status_new);
+            }
+        }
+    }
+
+    @BindingAdapter("order_status_driver")
+    public static void orderStatusDriver(TextView textView ,String order_status){
+        if (order_status!=null){
+            if (order_status.equals(Tags.status_accepted)){
+                textView.setText(R.string.accepted);
+            }else if (order_status.equals(Tags.status_completed)){
+                textView.setText(R.string.completed);
+
+            }else if (order_status.equals(Tags.status_refused)){
+                textView.setText(R.string.refused);
 
             }else {
                 textView.setText(R.string.status_new);

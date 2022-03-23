@@ -1,32 +1,33 @@
-package com.app.tourism.uis.activity_home.fragments.home_guide_module;
+package com.app.tourism.uis.activity_home.fragments.profile_module;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
+
 import com.app.tourism.R;
-import com.app.tourism.adapters.GuideOrderAdapter;
-import com.app.tourism.adapters.UserOrderAdapter;
-import com.app.tourism.databinding.FragmentHomeBinding;
-import com.app.tourism.databinding.FragmentHomeGuideBinding;
+import com.app.tourism.adapters.FavouriteAdapter;
+import com.app.tourism.databinding.BottomSheetRateBinding;
+import com.app.tourism.databinding.FragmentFavoriteBinding;
+import com.app.tourism.models.FavoriteModel;
 import com.app.tourism.models.OfferModel;
+import com.app.tourism.models.RateModel;
 import com.app.tourism.tags.Common;
 import com.app.tourism.tags.Tags;
 import com.app.tourism.uis.activity_home.HomeActivity;
 import com.app.tourism.uis.common_ui.activity_base.FragmentBase;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,10 +39,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class FragmentHomeGuide extends FragmentBase {
+
+public class FragmentFavorite extends FragmentBase {
     private HomeActivity activity;
-    private FragmentHomeGuideBinding binding;
-    private GuideOrderAdapter adapter;
+    private FragmentFavoriteBinding binding;
+    private FavouriteAdapter adapter;
     private DatabaseReference dRef;
 
     @Override
@@ -53,7 +55,7 @@ public class FragmentHomeGuide extends FragmentBase {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home_guide, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_favorite, container, false);
         return binding.getRoot();
     }
 
@@ -63,34 +65,32 @@ public class FragmentHomeGuide extends FragmentBase {
         initView();
     }
 
-
     private void initView() {
-        binding.recViewLayout.tvNoData.setText(R.string.no_orders);
+        binding.recViewLayout.tvNoData.setText(R.string.no_fav);
         binding.recViewLayout.tvNoData.setVisibility(View.GONE);
-
-        adapter = new GuideOrderAdapter(activity, this);
+        adapter = new FavouriteAdapter(activity, this);
         binding.recViewLayout.recView.setLayoutManager(new LinearLayoutManager(activity));
         binding.recViewLayout.recView.setAdapter(adapter);
-        binding.recViewLayout.swipeRefresh.setOnRefreshListener(this::getOffers);
-        getOffers();
+        binding.recViewLayout.swipeRefresh.setOnRefreshListener(this::getFavorites);
+        getFavorites();
     }
 
-    private void getOffers() {
+    private void getFavorites() {
         binding.recViewLayout.swipeRefresh.setRefreshing(true);
         dRef = FirebaseDatabase.getInstance().getReference();
-        Query query = dRef.child(Tags.ORDERS_TABLE)
-                .orderByChild("guide_id")
+        Query query = dRef.child(Tags.FAVORITE_TABLE)
+                .orderByChild("user_id")
                 .equalTo(getUserModel().getUser_id());
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 binding.recViewLayout.swipeRefresh.setRefreshing(false);
-                List<OfferModel> list = new ArrayList<>();
+                List<FavoriteModel> list = new ArrayList<>();
                 if (snapshot.getValue() != null) {
                     for (DataSnapshot ds : snapshot.getChildren()) {
-                        OfferModel offerModel = ds.getValue(OfferModel.class);
-                        if (offerModel != null) {
-                            list.add(offerModel);
+                        FavoriteModel favoriteModel = ds.getValue(FavoriteModel.class);
+                        if (favoriteModel != null) {
+                            list.add(favoriteModel);
                         }
                     }
 
@@ -103,6 +103,7 @@ public class FragmentHomeGuide extends FragmentBase {
 
                     }
                 } else {
+                    adapter.updateList(new ArrayList<>());
                     binding.recViewLayout.tvNoData.setVisibility(View.VISIBLE);
                 }
 
@@ -116,58 +117,22 @@ public class FragmentHomeGuide extends FragmentBase {
 
     }
 
-    public void acceptOrder(OfferModel offerModel, int adapterPosition) {
+
+    public void unFavorite(FavoriteModel model) {
         ProgressDialog dialog = Common.createProgressDialog(activity, getString(R.string.wait));
         dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
-        offerModel.setOrder_status(Tags.status_accepted);
         dRef = FirebaseDatabase.getInstance().getReference();
-        dRef.child(Tags.ORDERS_TABLE)
-                .child(offerModel.getOrder_id())
-                .setValue(offerModel)
+        dRef.child(Tags.FAVORITE_TABLE).child(model.getId())
+                .removeValue()
                 .addOnSuccessListener(unused -> {
-                    dialog.dismiss();
-                }).addOnFailureListener(e -> {
-            dialog.dismiss();
-            Toast.makeText(activity, e.getMessage(), Toast.LENGTH_SHORT).show();
-        });
 
-    }
-
-    public void refuseOrder(OfferModel offerModel, int adapterPosition) {
-        ProgressDialog dialog = Common.createProgressDialog(activity, getString(R.string.wait));
-        dialog.setCancelable(false);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
-        offerModel.setOrder_status(Tags.status_refused);
-        dRef = FirebaseDatabase.getInstance().getReference();
-        dRef.child(Tags.ORDERS_TABLE)
-                .child(offerModel.getOrder_id())
-                .setValue(offerModel)
-                .addOnSuccessListener(unused -> {
                     dialog.dismiss();
+                    Toast.makeText(activity, R.string.unfav, Toast.LENGTH_SHORT).show();
                 }).addOnFailureListener(e -> {
-            dialog.dismiss();
             Toast.makeText(activity, e.getMessage(), Toast.LENGTH_SHORT).show();
-        });
-    }
-
-    public void endOrder(OfferModel offerModel, int adapterPosition) {
-        ProgressDialog dialog = Common.createProgressDialog(activity, getString(R.string.wait));
-        dialog.setCancelable(false);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
-        offerModel.setOrder_status(Tags.status_completed);
-        dRef = FirebaseDatabase.getInstance().getReference();
-        dRef.child(Tags.ORDERS_TABLE)
-                .child(offerModel.getOrder_id())
-                .setValue(offerModel)
-                .addOnSuccessListener(unused -> {
-                    dialog.dismiss();
-                }).addOnFailureListener(e -> {
             dialog.dismiss();
-            Toast.makeText(activity, e.getMessage(), Toast.LENGTH_SHORT).show();
         });
     }
 

@@ -75,11 +75,12 @@
                 android:background="@drawable/line_horz" />
 
             <LinearLayout
-                android:id="@+id/llAddMedicine"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone"
+                >
 
                 <TextView
                     android:layout_width="0dp"
@@ -132,7 +133,9 @@
                 android:layout_height="4dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                android:background="@drawable/line_horz" />
+                android:background="@drawable/line_horz"
+                android:visibility="gone"
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"

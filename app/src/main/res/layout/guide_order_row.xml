@@ -1,70 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <data>
-
         <variable
             name="model"
             type="com.app.tourism.models.OfferModel" />
-
-        <import type="android.view.View" />
+        <import type="android.view.View"/>
 
     </data>
-
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="3dp"
         app:cardElevation="3dp"
-        app:contentPadding="16dp">
-
+        app:contentPadding="16dp"
+        android:layout_margin="8dp"
+        >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
+            android:orientation="vertical"
+            >
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
-
+                >
                 <FrameLayout
                     android:layout_width="36dp"
-                    android:layout_height="36dp">
-
+                    android:layout_height="36dp"
+                    >
                     <ImageView
                         android:layout_width="36dp"
                         android:layout_height="36dp"
-                        android:src="@drawable/avatar" />
-
+                        android:src="@drawable/avatar"
+                        />
                     <com.github.ybq.android.spinkit.SpinKitView
                         android:id="@+id/loadView"
                         style="@style/SpinKitView.Small.DoubleBounce"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:visibility='@{model.order_status.equals("accepted")?View.VISIBLE:View.GONE,default=gone}'
                         app:SpinKit_Color="@color/colorPrimary"
-                        app:SpinKit_Style="DoubleBounce" />
+                        app:SpinKit_Style="DoubleBounce"
+                        android:visibility='@{model.order_status.equals("new")?View.VISIBLE:View.GONE,default=gone}'
+                        />
                 </FrameLayout>
 
                 <androidx.legacy.widget.Space
                     android:layout_width="16dp"
-                    android:layout_height="0dp" />
-
+                    android:layout_height="0dp"
+                    />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{model.guide_name}"
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:textStyle="bold"
+                    android:text="@{model.user_name}"
 
                     />
-
                 <androidx.legacy.widget.Space
                     android:layout_width="0dp"
                     android:layout_height="0dp"
@@ -72,6 +68,7 @@
                     />
                 <ImageView
                     android:id="@+id/call"
+
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_call2"
@@ -79,157 +76,166 @@
                     android:padding="3dp"
                     />
             </LinearLayout>
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:background="@color/gray2"
                 android:layout_marginTop="12dp"
-                android:background="@color/gray2" />
-
+                />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:ellipsize="end"
-                android:maxLines="3"
-                android:text="@{model.details}"
                 android:textColor="@color/gray4"
-                android:textSize="13sp" />
-
+                android:text="@{model.details}"
+                android:textSize="13sp"
+                android:maxLines="3"
+                android:ellipsize="end"
+                />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
-
+                android:layout_marginTop="8dp"
+                android:layout_gravity="center_vertical"
+                >
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:padding="2dp"
                     android:src="@drawable/ic_pin"
                     app:tint="@color/colorPrimary"
+                    android:padding="2dp"
 
                     />
-
                 <androidx.legacy.widget.Space
                     android:layout_width="8dp"
-                    android:layout_height="0dp" />
-
+                    android:layout_height="0dp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="2"
-                    android:text="@{model.address}"
                     android:textColor="@color/gray4"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:text="@{model.address}"
+                    />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
-
+                android:layout_marginTop="8dp"
+                android:layout_gravity="center_vertical"
+                >
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:padding="3dp"
                     android:src="@drawable/ic_calender"
                     app:tint="@color/colorPrimary"
+                    android:padding="3dp"
 
                     />
-
                 <androidx.legacy.widget.Space
                     android:layout_width="8dp"
-                    android:layout_height="0dp" />
-
+                    android:layout_height="0dp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text='@{model.booking_date+" "+model.booking_time}'
                     android:textColor="@color/gray4"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text='@{model.booking_date+" "+model.booking_time}'
+                    />
 
             </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:visibility='@{model.order_status.equals("new")?View.VISIBLE:View.GONE,default=gone}'
-                >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/offers"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="15sp" />
-
-                <androidx.legacy.widget.Space
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text='@{model.order_status.equals("new")?@string/no_offer:model.order_cost+" "+@string/sar}'
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="15sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
-
+                >
                 <TextView
-                    order_status="@{model.order_status}"
-                    order_status_color_text="@{model.order_status}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp" />
-
+                    android:textSize="15sp"
+                    order_status_driver="@{model.order_status}"
+                    order_status_color_text="@{model.order_status}"
+                    />
                 <androidx.legacy.widget.Space
                     android:layout_width="12dp"
-                    android:layout_height="0dp" />
-
+                    android:layout_height="0dp"/>
                 <androidx.cardview.widget.CardView
-                    order_status_color="@{model.order_status}"
                     android:layout_width="0dp"
                     android:layout_height="8dp"
+                    app:cardElevation="1dp"
                     android:layout_margin="3dp"
                     android:layout_weight="1"
                     app:cardCornerRadius="6dp"
-                    app:cardElevation="1dp" />
-
-                <Button
-                    android:id="@+id/addRate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_margin="5dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:background="@drawable/rounded_rate"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    android:text="@string/add_rate"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    android:visibility='@{model.order_status.equals("completed")?View.VISIBLE:View.GONE,default=gone}' />
+                    order_status_color="@{model.order_status}"
+                    />
             </LinearLayout>
 
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility='@{model.order_status.equals("new")?View.VISIBLE:View.GONE,default = gone}'
+                    >
+                    <Button
+                        android:id="@+id/btnAction"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/rounded_primary"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
+                        android:text="@string/accept"
+                        android:layout_margin="3dp"
+
+                        />
+
+                    <Button
+                        android:id="@+id/btnRefuse"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/rounded_white"
+                        android:textColor="@color/red"
+                        android:textSize="15sp"
+                        android:text="@string/refuse"
+                        android:layout_margin="3dp"
+
+
+                        />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnEnd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_primary"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:text="@string/end"
+                    android:layout_margin="3dp"
+                    android:visibility='@{model.order_status.equals("accepted")?View.VISIBLE:View.GONE,default=gone}'
+                    />
+
+
+            </FrameLayout>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

@@ -13,5 +13,10 @@
         android:label=""
 
         />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.app.tourism.uis.activity_home.fragments.home_module.FragmentSearch"
+        android:label=""
+        tools:layout="@layout/fragment_search" />
 
 </navigation>

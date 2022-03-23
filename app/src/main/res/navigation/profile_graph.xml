@@ -21,5 +21,10 @@
         android:label=""
 
         />
+    <fragment
+        android:id="@+id/fragmentFavorite"
+        android:name="com.app.tourism.uis.activity_home.fragments.profile_module.FragmentFavorite"
+        android:label=""
+        tools:layout="@layout/fragment_favorite" />
 
 </navigation>

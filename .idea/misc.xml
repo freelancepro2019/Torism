@@ -43,8 +43,10 @@
         <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/layout/activity_splash.xml" value="0.22083333333333333" />
         <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/layout/bottom_sheet_rate.xml" value="0.22083333333333333" />
         <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/layout/dialog_error.xml" value="0.22083333333333333" />
+        <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/layout/favorite_row.xml" value="0.22083333333333333" />
         <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/layout/fragment_camera.xml" value="0.22083333333333333" />
         <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/layout/fragment_camera_base.xml" value="0.22083333333333333" />
+        <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/layout/fragment_favorite.xml" value="0.22083333333333333" />
         <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/layout/fragment_home.xml" value="0.22083333333333333" />
         <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/layout/fragment_home_base.xml" value="0.22083333333333333" />
         <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/layout/fragment_home_gudie.xml" value="0.22083333333333333" />
@@ -53,6 +55,8 @@
         <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/layout/fragment_offers.xml" value="0.22083333333333333" />
         <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/layout/fragment_profile.xml" value="0.264" />
         <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/layout/fragment_profile_base.xml" value="0.22083333333333333" />
+        <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/layout/fragment_search.xml" value="0.22083333333333333" />
+        <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/layout/guide_order_row.xml" value="0.4" />
         <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/layout/guide_profile_layout.xml" value="0.22083333333333333" />
         <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/layout/guide_row.xml" value="0.22083333333333333" />
         <entry key="..\:/works/Courses/work_android/FreeLancer/Torism/app/src/main/res/layout/order_row.xml" value="0.22083333333333333" />
