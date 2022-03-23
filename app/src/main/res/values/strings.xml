@@ -74,6 +74,8 @@
     <string name="unfav">إلغاء المفضلة</string>
     <string name="already_fav">تم الإضافة الى المفضلة من قبل</string>
     <string name="no_fav">لا توجد مفضلة</string>
-
+    <string name="filter_by">تصفية حسب:</string>
+    <string name="filter">تطبيق</string>
+    <string name="All">الكل</string>
 
 </resources>
