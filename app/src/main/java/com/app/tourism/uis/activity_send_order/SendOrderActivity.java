@@ -82,7 +82,6 @@ public class SendOrderActivity extends ActivityBase implements DatePickerDialog.
                     UserModel userModel = snapshot.child(guideModel.getUser_id()).getValue(UserModel.class);
                     if (userModel != null) {
                         guideModel = userModel;
-                        Log.e("status", userModel.isCanReceiveOrders() + "");
                     } else {
                         guideModel.setCanReceiveOrders(false);
                         Common.createAlertDialog(SendOrderActivity.this, getString(R.string.error_msg));
