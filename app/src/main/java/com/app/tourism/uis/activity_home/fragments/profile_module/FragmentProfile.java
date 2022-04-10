@@ -147,37 +147,6 @@ public class FragmentProfile extends FragmentBase {
         });
     }
 
-/*
-    private void getNewOrderCount() {
-        Query query = dRef.child(Tags.ORDERS_TABLE)
-                .orderByChild("user_id")
-                .equalTo(getUserModel().getUser_id());
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.getValue() != null) {
-                    int count = 0;
-                    for (DataSnapshot ds : snapshot.getChildren()) {
-                        OfferModel offerModel = ds.getValue(OfferModel.class);
-                        if (offerModel != null && offerModel.getOrder_status().equals(Tags.status_new)) {
-                            count++;
-                        }
-                    }
-
-                    binding.guideLayout.setCounter(count + "");
-
-                } else {
-                    binding.guideLayout.setCounter("0");
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-*/
 
     private void getRate() {
         dRef.child(Tags.USERS_TABLE)

@@ -1,5 +1,6 @@
 package com.app.tourism.uis.common_ui.activity_base;
 
+import android.Manifest;
 import android.content.Context;
 
 import androidx.annotation.NonNull;

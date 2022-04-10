@@ -1,5 +1,6 @@
 package com.app.tourism.uis.common_ui.activity_base;
 
+import android.Manifest;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -13,6 +14,11 @@ import com.app.tourism.preferences.Preferences;
 import io.paperdb.Paper;
 
 public class ActivityBase extends AppCompatActivity {
+
+    public static final String READ_REQ = Manifest.permission.READ_EXTERNAL_STORAGE;
+    public static final String WRITE_REQ = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+    public static final String CAM_REQ = Manifest.permission.CAMERA;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         Paper.init(newBase);
