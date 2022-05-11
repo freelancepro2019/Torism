@@ -5,7 +5,10 @@ import androidx.databinding.DataBindingUtil;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.app.tourism.R;
@@ -22,18 +25,20 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class SignUpActivity extends ActivityBase implements DatePickerDialog.OnDateSetListener {
+public class SignUpActivity extends ActivityBase implements DatePickerDialog.OnDateSetListener , TimePickerDialog.OnTimeSetListener {
     private ActivitySignUpBinding binding;
     private SignUpModel model;
     private FirebaseAuth mAuth;
     private DatabaseReference dRef;
     private DatePickerDialog datePickerDialog;
-
+    private TimePickerDialog timePickerDialog;
+    private int time_type; //1 from 2 to
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +60,7 @@ public class SignUpActivity extends ActivityBase implements DatePickerDialog.OnD
             model.setCarNumber(getUserModel().getCar_number());
 
             if (getUserModel().getUser_type().equals(Tags.user_guide)){
-                binding.tiCarNumber.setVisibility(View.VISIBLE);
+                binding.llGuideData.setVisibility(View.VISIBLE);
             }
             binding.consUserType.setVisibility(View.GONE);
             binding.tv.setText(R.string.update_profile);
@@ -97,7 +102,7 @@ public class SignUpActivity extends ActivityBase implements DatePickerDialog.OnD
         });
 
         binding.cardTourist.setOnClickListener(view -> {
-            binding.tiCarNumber.setVisibility(View.GONE);
+            binding.llGuideData.setVisibility(View.GONE);
 
             binding.cardTourist.setCardBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
             binding.imageTourist.setColorFilter(ContextCompat.getColor(this, R.color.white));
@@ -112,7 +117,7 @@ public class SignUpActivity extends ActivityBase implements DatePickerDialog.OnD
         });
 
         binding.cardTouristGuide.setOnClickListener(view -> {
-            binding.tiCarNumber.setVisibility(View.VISIBLE);
+            binding.llGuideData.setVisibility(View.VISIBLE);
             binding.cardTouristGuide.setCardBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
             binding.imageGuide.setColorFilter(ContextCompat.getColor(this, R.color.white));
             binding.tvGuide.setTextColor(ContextCompat.getColor(this, R.color.white));
@@ -127,6 +132,27 @@ public class SignUpActivity extends ActivityBase implements DatePickerDialog.OnD
 
         });
 
+        binding.llFromTime.setOnClickListener(view -> {
+            time_type = 1;
+            createTimeDialog();
+        });
+
+        binding.llToTime.setOnClickListener(view -> {
+            time_type = 2;
+            createTimeDialog();
+        });
+
+        binding.rbAr.setOnCheckedChangeListener((compoundButton, b) -> {
+            if (b){
+                model.setLanguage("ar");
+            }
+        });
+
+        binding.rbEn.setOnCheckedChangeListener((compoundButton, b) -> {
+            if (b){
+                model.setLanguage("en");
+            }
+        });
         binding.llDate.setOnClickListener(view -> {
             createDateDialog();
         });
@@ -144,6 +170,19 @@ public class SignUpActivity extends ActivityBase implements DatePickerDialog.OnD
         datePickerDialog.setOkText(R.string.select);
         datePickerDialog.setVersion(DatePickerDialog.Version.VERSION_2);
         datePickerDialog.show(getFragmentManager(), "");
+    }
+
+    private void createTimeDialog() {
+        Calendar now = Calendar.getInstance();
+        timePickerDialog = TimePickerDialog.newInstance(this, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), now.get(Calendar.SECOND),false);
+        timePickerDialog.setAccentColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        timePickerDialog.setTitle(getString(R.string.date_of_birth));
+        timePickerDialog.setCancelColor(ContextCompat.getColor(this, R.color.gray4));
+        timePickerDialog.setCancelText(getString(R.string.cancel));
+        timePickerDialog.setOkColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        timePickerDialog.setOkText(R.string.select);
+        timePickerDialog.setVersion(TimePickerDialog.Version.VERSION_2);
+        timePickerDialog.show(getFragmentManager(), "");
     }
 
     private void createAccount() {
@@ -169,7 +208,8 @@ public class SignUpActivity extends ActivityBase implements DatePickerDialog.OnD
     }
 
     private void signUp(String user_id, ProgressDialog dialog) {
-        UserModel userModel = new UserModel(user_id, model.getFirstName(), model.getLastName(), model.getPhoneCode(), model.getPhone(), model.getEmail(), model.getPassword(), model.getGender(), model.getBirthDate(), model.getCarNumber(), model.getUserType());
+
+        UserModel userModel = new UserModel(user_id, model.getFirstName(), model.getLastName(), model.getPhoneCode(), model.getPhone(), model.getEmail(), model.getPassword(), model.getGender(), model.getBirthDate(), model.getCarNumber(), model.getUserType(),model.getLanguage(),model.getFrom_time(),model.getTo_time());
         dRef = FirebaseDatabase.getInstance().getReference();
         dRef.child(Tags.USERS_TABLE)
                 .child(user_id)
@@ -226,7 +266,7 @@ public class SignUpActivity extends ActivityBase implements DatePickerDialog.OnD
     }
 
     private void updateProfile(ProgressDialog dialog) {
-        UserModel userModel = new UserModel(getUserModel().getUser_id(), model.getFirstName(), model.getLastName(), model.getPhoneCode(), model.getPhone(), model.getEmail(), model.getPassword(), model.getGender(), model.getBirthDate(), model.getCarNumber(), model.getUserType());
+        UserModel userModel = new UserModel(getUserModel().getUser_id(), model.getFirstName(), model.getLastName(), model.getPhoneCode(), model.getPhone(), model.getEmail(), model.getPassword(), model.getGender(), model.getBirthDate(), model.getCarNumber(), model.getUserType(),model.getLanguage(),model.getFrom_time(),model.getTo_time());
         userModel.setRate(getUserModel().getRate());
         userModel.setCanReceiveOrders(getUserModel().isCanReceiveOrders());
         dRef = FirebaseDatabase.getInstance().getReference();
@@ -261,5 +301,26 @@ public class SignUpActivity extends ActivityBase implements DatePickerDialog.OnD
         int age = Math.abs(now.get(Calendar.YEAR) - calendar.get(Calendar.YEAR));
         binding.tvAge.setText(age + "");
         binding.setModel(model);
+    }
+
+    @Override
+    public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY,hourOfDay);
+        calendar.set(Calendar.MINUTE,minute);
+        calendar.set(Calendar.SECOND,second);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a",Locale.ENGLISH);
+        if (time_type==1){
+            String time = dateFormat.format(calendar.getTime());
+            model.setFrom_time(time);
+
+        }else if (time_type ==2){
+            String time = dateFormat.format(calendar.getTime());
+            model.setTo_time(time);
+
+        }
+
+        binding.setModel(model);
+
     }
 }

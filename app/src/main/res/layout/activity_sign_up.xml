@@ -375,40 +375,201 @@
                         </androidx.cardview.widget.CardView>
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tiCarNumber"
+                    <LinearLayout
+                        android:id="@+id/llGuideData"
                         android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:paddingStart="5dp"
-                        android:paddingEnd="5dp"
-                        android:background="@drawable/small_stroke_gray"
-                        app:hintEnabled="false"
-                        app:errorEnabled="false"
-                        app:startIconDrawable="@drawable/ic_car"
-                        app:startIconTint="@color/gray4"
-                        android:layout_marginTop="8dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
                         android:visibility="gone"
                         >
-
-
-
-                        <EditText
-                            android:id="@+id/edtCarNumber"
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/tiCarNumber"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@color/transparent"
-                            android:lines="1"
-                            android:hint="@string/car_number"
-                            android:textColorHint="@color/gray4"
-                            android:textSize="14sp"
-                            android:textColor="@color/black"
-                            android:gravity="start|center_vertical"
-                            android:textAlignment="viewStart"
-                            android:text="@={model.carNumber}"
-                            error="@{model.error_car_number}"
+                            android:layout_height="56dp"
+                            android:paddingStart="5dp"
+                            android:paddingEnd="5dp"
+                            android:background="@drawable/small_stroke_gray"
+                            app:hintEnabled="false"
+                            app:errorEnabled="false"
+                            app:startIconDrawable="@drawable/ic_car"
+                            app:startIconTint="@color/gray4"
+                            android:layout_marginTop="8dp"
+                            android:visibility="visible"
+                            >
 
+
+
+                            <EditText
+                                android:id="@+id/edtCarNumber"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@color/transparent"
+                                android:lines="1"
+                                android:hint="@string/car_number"
+                                android:textColorHint="@color/gray4"
+                                android:textSize="14sp"
+                                android:textColor="@color/black"
+                                android:gravity="start|center_vertical"
+                                android:textAlignment="viewStart"
+                                android:text="@={model.carNumber}"
+                                error="@{model.error_car_number}"
+
+                                />
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/language"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
                             />
-                    </com.google.android.material.textfield.TextInputLayout>
+                        <RadioGroup
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            >
+                            <RadioButton
+                                android:id="@+id/rbAr"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="15sp"
+                                android:text="@string/ar"
+                                android:buttonTint="@color/colorPrimary"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="8dp"
+                                android:checked="true"
+                                />
+
+                            <RadioButton
+                                android:id="@+id/rbEn"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="15sp"
+                                android:text="@string/en"
+                                android:buttonTint="@color/colorPrimary"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="8dp"
+                                />
+
+                        </RadioGroup>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/available_time"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
+                            />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            >
+                            <LinearLayout
+                                android:id="@+id/llFromTime"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="56dp"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical"
+                                android:layout_marginTop="8dp"
+                                android:background="@drawable/small_stroke_gray"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="8dp"
+                                >
+                                <androidx.legacy.widget.Space
+                                    android:layout_width="8dp"
+                                    android:layout_height="0dp"/>
+                                <ImageView
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:src="@drawable/ic_clock"
+                                    app:tint="@color/gray4"
+                                    />
+                                <androidx.legacy.widget.Space
+                                    android:layout_width="12dp"
+                                    android:layout_height="0dp"/>
+
+                                <TextView
+                                    android:id="@+id/tvFromTime"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@color/transparent"
+                                    android:lines="1"
+                                    android:hint="@string/from"
+                                    android:textColorHint="@color/gray4"
+                                    android:textSize="14sp"
+                                    android:textColor="@color/black"
+                                    android:gravity="start|center_vertical"
+                                    android:textAlignment="viewStart"
+                                    android:text="@={model.from_time}"
+                                    error="@{model.error_from_time}"
+                                    />
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/llToTime"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="56dp"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical"
+                                android:layout_marginTop="8dp"
+                                android:background="@drawable/small_stroke_gray"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="8dp"
+                                >
+                                <androidx.legacy.widget.Space
+                                    android:layout_width="8dp"
+                                    android:layout_height="0dp"/>
+                                <ImageView
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:src="@drawable/ic_clock"
+                                    app:tint="@color/gray4"
+                                    />
+                                <androidx.legacy.widget.Space
+                                    android:layout_width="12dp"
+                                    android:layout_height="0dp"/>
+
+                                <TextView
+                                    android:id="@+id/tvToTime"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@color/transparent"
+                                    android:lines="1"
+                                    android:hint="@string/to"
+                                    android:textColorHint="@color/gray4"
+                                    android:textSize="14sp"
+                                    android:textColor="@color/black"
+                                    android:gravity="start|center_vertical"
+                                    android:textAlignment="viewStart"
+                                    android:text="@={model.to_time}"
+                                    error="@{model.error_to_time}"
+                                    />
+
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+
+
+
+                    </LinearLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"

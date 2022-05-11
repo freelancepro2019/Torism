@@ -75,5 +75,11 @@
     <string name="filter_by">تصفية حسب:</string>
     <string name="filter">تطبيق</string>
     <string name="All">الكل</string>
+    <string name="language">اللغة</string>
+    <string name="ar">العربية</string>
+    <string name="en">الإنجليزية</string>
+    <string name="available_time">الوقت المتاح</string>
+    <string name="from">من</string>
+    <string name="to">الى</string>
 
 </resources>

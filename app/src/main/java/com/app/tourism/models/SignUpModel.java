@@ -24,6 +24,9 @@ public class SignUpModel extends BaseObservable implements Serializable {
     private String carNumber;
     private String gender;
     private String userType;
+    private String language;
+    private String from_time;
+    private String to_time;
     public ObservableField<String> error_first_name = new ObservableField<>();
     public ObservableField<String> error_last_name = new ObservableField<>();
     public ObservableField<String> error_phone = new ObservableField<>();
@@ -31,6 +34,8 @@ public class SignUpModel extends BaseObservable implements Serializable {
     public ObservableField<String> error_password = new ObservableField<>();
     public ObservableField<String> error_birth_date = new ObservableField<>();
     public ObservableField<String> error_car_number = new ObservableField<>();
+    public ObservableField<String> error_from_time = new ObservableField<>();
+    public ObservableField<String> error_to_time = new ObservableField<>();
 
     public SignUpModel() {
         firstName = "";
@@ -43,6 +48,9 @@ public class SignUpModel extends BaseObservable implements Serializable {
         carNumber ="";
         gender = Tags.male;
         userType = Tags.user_normal;
+        language = "ar";
+        from_time="";
+        to_time="";
 
     }
 
@@ -64,12 +72,27 @@ public class SignUpModel extends BaseObservable implements Serializable {
             error_password.set(null);
             error_birth_date.set(null);
             if (userType.equals("guide")){
-                if (!carNumber.isEmpty()){
+                if (!carNumber.isEmpty()&&!from_time.isEmpty()&&!to_time.isEmpty()){
                     error_car_number.set(null);
+                    error_from_time.set(null);
+                    error_to_time.set(null);
 
                     return true;
                 }else {
-                    error_car_number.set(context.getString(R.string.field_required));
+                    if (carNumber.isEmpty()){
+                        error_car_number.set(context.getString(R.string.field_required));
+
+                    }
+
+                    if (from_time.isEmpty()){
+                        error_from_time.set(context.getString(R.string.field_required));
+
+                    }
+
+                    if (to_time.isEmpty()){
+                        error_to_time.set(context.getString(R.string.field_required));
+
+                    }
                     return false;
                 }
             }else {
@@ -124,6 +147,22 @@ public class SignUpModel extends BaseObservable implements Serializable {
                     error_car_number.set(null);
                 }else {
                     error_car_number.set(context.getString(R.string.field_required));
+                }
+
+                if (from_time.isEmpty()){
+                    error_from_time.set(context.getString(R.string.field_required));
+
+                }else {
+                    error_from_time.set(null);
+
+                }
+
+                if (to_time.isEmpty()){
+                    error_to_time.set(context.getString(R.string.field_required));
+
+                }else {
+                    error_to_time.set(null);
+
                 }
             }
             return false;
@@ -230,5 +269,36 @@ public class SignUpModel extends BaseObservable implements Serializable {
     public void setUserType(String userType) {
         this.userType = userType;
         notifyPropertyChanged(BR.userType);
+    }
+
+    @Bindable
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+        notifyPropertyChanged(BR.language);
+    }
+
+    @Bindable
+    public String getFrom_time() {
+        return from_time;
+    }
+
+
+    public void setFrom_time(String from_time) {
+        this.from_time = from_time;
+        notifyPropertyChanged(BR.from_time);
+    }
+
+    @Bindable
+    public String getTo_time() {
+        return to_time;
+    }
+
+    public void setTo_time(String to_time) {
+        this.to_time = to_time;
+        notifyPropertyChanged(BR.to_time);
     }
 }

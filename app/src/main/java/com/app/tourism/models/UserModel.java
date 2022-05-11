@@ -15,6 +15,9 @@ public class UserModel implements Serializable {
     private String date_of_birth;
     private String car_number;
     private String user_type;
+    private String language;
+    private String from_time;
+    private String to_time;
     //guide
     private boolean canReceiveOrders;
     private int rate;
@@ -22,7 +25,7 @@ public class UserModel implements Serializable {
     public UserModel() {
     }
 
-    public UserModel(String user_id, String first_name, String last_name, String phone_code, String phone, String email, String password, String gender, String date_of_birth, String car_number, String user_type) {
+    public UserModel(String user_id, String first_name, String last_name, String phone_code, String phone, String email, String password, String gender, String date_of_birth, String car_number, String user_type,String language,String from_time,String to_time) {
         this.user_id = user_id;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -37,6 +40,9 @@ public class UserModel implements Serializable {
         this.canReceiveOrders = true;
         this.rate = 0;
         this.full_name = first_name+" "+last_name;
+        this.from_time = from_time;
+        this.to_time = to_time;
+        this.language = language;
 
     }
 
@@ -151,5 +157,29 @@ public class UserModel implements Serializable {
 
     public void setFull_name(String full_name) {
         this.full_name = full_name;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public String getFrom_time() {
+        return from_time;
+    }
+
+    public void setFrom_time(String from_time) {
+        this.from_time = from_time;
+    }
+
+    public String getTo_time() {
+        return to_time;
+    }
+
+    public void setTo_time(String to_time) {
+        this.to_time = to_time;
     }
 }
