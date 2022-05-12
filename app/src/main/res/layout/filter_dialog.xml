@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="fromTime"
+            type="String" />
+
+        <variable
+            name="toTime"
+            type="String" />
+        <import type="android.view.View"/>
+    </data>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -125,7 +135,117 @@
                     android:layout_marginTop="5dp"
                     android:background="@color/white"
                     />
+
             </RadioGroup>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="16dp"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                >
+                <LinearLayout
+                    android:id="@+id/llFromTime"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="56dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/small_stroke_gray"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    >
+                    <androidx.legacy.widget.Space
+                        android:layout_width="8dp"
+                        android:layout_height="0dp"/>
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_clock"
+                        app:tint="@color/gray4"
+                        />
+                    <androidx.legacy.widget.Space
+                        android:layout_width="12dp"
+                        android:layout_height="0dp"/>
+
+                    <TextView
+                        android:id="@+id/tvFromTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/transparent"
+                        android:lines="1"
+                        android:hint="@string/from"
+                        android:textColorHint="@color/gray4"
+                        android:textSize="14sp"
+                        android:textColor="@color/black"
+                        android:gravity="start|center_vertical"
+                        android:textAlignment="viewStart"
+                        android:text="@{fromTime}"
+                        />
+
+
+                </LinearLayout>
+                <androidx.legacy.widget.Space
+                    android:layout_width="8dp"
+                    android:layout_height="0dp"/>
+
+                <LinearLayout
+                    android:id="@+id/llToTime"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="56dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/small_stroke_gray"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    >
+                    <androidx.legacy.widget.Space
+                        android:layout_width="8dp"
+                        android:layout_height="0dp"/>
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_clock"
+                        app:tint="@color/gray4"
+                        />
+                    <androidx.legacy.widget.Space
+                        android:layout_width="12dp"
+                        android:layout_height="0dp"/>
+
+                    <TextView
+                        android:id="@+id/tvToTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/transparent"
+                        android:lines="1"
+                        android:hint="@string/to"
+                        android:textColorHint="@color/gray4"
+                        android:textSize="14sp"
+                        android:textColor="@color/black"
+                        android:gravity="start|center_vertical"
+                        android:textAlignment="viewStart"
+                        android:text="@{toTime}"
+
+                        />
+
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/clearTime"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_close"
+                    android:padding="5dp"
+                    android:visibility='@{!fromTime.isEmpty()?(!toTime.isEmpty()?View.VISIBLE:View.GONE):View.GONE,default=gone}'
+                    />
+            </LinearLayout>
 
             <Button
                 android:id="@+id/btnFilter"

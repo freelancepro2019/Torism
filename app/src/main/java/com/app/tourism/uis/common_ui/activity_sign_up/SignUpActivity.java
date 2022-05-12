@@ -176,7 +176,7 @@ public class SignUpActivity extends ActivityBase implements DatePickerDialog.OnD
         Calendar now = Calendar.getInstance();
         timePickerDialog = TimePickerDialog.newInstance(this, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), now.get(Calendar.SECOND),false);
         timePickerDialog.setAccentColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        timePickerDialog.setTitle(getString(R.string.date_of_birth));
+        timePickerDialog.setTitle("");
         timePickerDialog.setCancelColor(ContextCompat.getColor(this, R.color.gray4));
         timePickerDialog.setCancelText(getString(R.string.cancel));
         timePickerDialog.setOkColor(ContextCompat.getColor(this, R.color.colorPrimary));

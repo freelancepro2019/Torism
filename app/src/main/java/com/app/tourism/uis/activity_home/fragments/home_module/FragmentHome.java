@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -32,19 +33,32 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
-public class FragmentHome extends FragmentBase {
+public class FragmentHome extends FragmentBase implements  TimePickerDialog.OnTimeSetListener {
     private HomeActivity activity;
     private FragmentHomeBinding binding;
     private GuideAdapter adapter;
     private DatabaseReference dRef;
-    private String filterBy ="all";
+    private String filterBy = "all";
     private String dialogFilterQuery = filterBy;
+    private int time_type;
+    private FilterDialogBinding filterDialogBinding;
+    private TimePickerDialog timePickerDialog;
+    private String fromTime = "";
+    private String toTime = "";
+
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -55,7 +69,7 @@ public class FragmentHome extends FragmentBase {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_home,container,false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false);
         return binding.getRoot();
     }
 
@@ -69,10 +83,10 @@ public class FragmentHome extends FragmentBase {
         dRef = FirebaseDatabase.getInstance().getReference();
         binding.setFilter(getString(R.string.All));
         binding.recViewLayout.recView.setLayoutManager(new LinearLayoutManager(activity));
-        adapter = new GuideAdapter(activity,getLang(),this);
+        adapter = new GuideAdapter(activity, getLang(), this);
         binding.recViewLayout.recView.setAdapter(adapter);
         binding.recViewLayout.swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
-        binding.recViewLayout.swipeRefresh.setOnRefreshListener(()->getGuides(filterBy));
+        binding.recViewLayout.swipeRefresh.setOnRefreshListener(() -> getGuides(filterBy));
         binding.recViewLayout.tvNoData.setText(R.string.no_guide);
         binding.cardViewSearch.setOnClickListener(view -> {
             Navigation.findNavController(view).navigate(R.id.searchFragment);
@@ -94,34 +108,67 @@ public class FragmentHome extends FragmentBase {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         binding.recViewLayout.swipeRefresh.setRefreshing(false);
                         List<UserModel> guidesList = new ArrayList<>();
-                        if (snapshot.getValue()!=null){
-                            for (DataSnapshot ds :snapshot.getChildren()){
+                        if (snapshot.getValue() != null) {
+                            for (DataSnapshot ds : snapshot.getChildren()) {
                                 UserModel userModel = ds.getValue(UserModel.class);
-                                if (userModel!=null){
-                                    if (filterBy.equals("all")){
-                                        guidesList.add(userModel);
-
-                                    }else if (filterBy.equals("male_ar")){
-                                        if (userModel.getGender().equals(Tags.male)&&userModel.getLanguage().equals("ar")){
+                                if (userModel != null) {
+                                    if (filterBy.equals("all")) {
+                                        if (!fromTime.isEmpty()&&!toTime.isEmpty()){
+                                            if (isDateBetween(userModel.getFrom_time(),userModel.getTo_time())){
+                                                guidesList.add(userModel);
+                                            }
+                                        }else {
                                             guidesList.add(userModel);
+                                        }
+
+
+                                    } else if (filterBy.equals("male_ar")) {
+                                        if (userModel.getGender().equals(Tags.male) && userModel.getLanguage().equals("ar")) {
+                                            if (!fromTime.isEmpty()&&!toTime.isEmpty()){
+                                                if (isDateBetween(userModel.getFrom_time(),userModel.getTo_time())){
+                                                    guidesList.add(userModel);
+                                                }
+                                            }else {
+                                                guidesList.add(userModel);
+                                            }
+
 
                                         }
 
-                                    }else if (filterBy.equals("male_en")){
-                                        if (userModel.getGender().equals(Tags.male)&&userModel.getLanguage().equals("en")){
-                                            guidesList.add(userModel);
+                                    } else if (filterBy.equals("male_en")) {
+                                        if (userModel.getGender().equals(Tags.male) && userModel.getLanguage().equals("en")) {
+                                            if (!fromTime.isEmpty()&&!toTime.isEmpty()){
+                                                if (isDateBetween(userModel.getFrom_time(),userModel.getTo_time())){
+                                                    guidesList.add(userModel);
+                                                }
+                                            }else {
+                                                guidesList.add(userModel);
+                                            }
 
                                         }
 
-                                    }else if (filterBy.equals("female_ar")){
-                                        if (userModel.getGender().equals(Tags.female)&&userModel.getLanguage().equals("ar")){
-                                            guidesList.add(userModel);
+                                    } else if (filterBy.equals("female_ar")) {
+                                        if (userModel.getGender().equals(Tags.female) && userModel.getLanguage().equals("ar")) {
+                                            if (!fromTime.isEmpty()&&!toTime.isEmpty()){
+                                                if (isDateBetween(userModel.getFrom_time(),userModel.getTo_time())){
+                                                    guidesList.add(userModel);
+                                                }
+                                            }else {
+                                                guidesList.add(userModel);
+                                            }
 
                                         }
 
-                                    }else if (filterBy.equals("female_en")){
-                                        if (userModel.getGender().equals(Tags.female)&&userModel.getLanguage().equals("en")){
-                                            guidesList.add(userModel);
+                                    } else if (filterBy.equals("female_en")) {
+                                        if (userModel.getGender().equals(Tags.female) && userModel.getLanguage().equals("en")) {
+                                            if (!fromTime.isEmpty()&&!toTime.isEmpty()){
+                                                if (isDateBetween(userModel.getFrom_time(),userModel.getTo_time())){
+                                                    guidesList.add(userModel);
+                                                }
+                                            }else {
+                                                guidesList.add(userModel);
+                                            }
+
 
                                         }
 
@@ -129,10 +176,10 @@ public class FragmentHome extends FragmentBase {
                                 }
                             }
 
-                            if (guidesList.size()>0){
+                            if (guidesList.size() > 0) {
                                 adapter.updateList(sortedList(guidesList));
                                 binding.recViewLayout.tvNoData.setVisibility(View.GONE);
-                            }else {
+                            } else {
                                 adapter.updateList(new ArrayList<>());
 
                                 binding.recViewLayout.tvNoData.setVisibility(View.VISIBLE);
@@ -149,78 +196,113 @@ public class FragmentHome extends FragmentBase {
     }
 
     private List<UserModel> sortedList(List<UserModel> list) {
-        Collections.sort(list, (m1, m2) -> Double.compare(m2.getRate(),m1.getRate()));
+        Collections.sort(list, (m1, m2) -> Double.compare(m2.getRate(), m1.getRate()));
         return list;
     }
 
-    private void showFilterDialog(){
+    private void createTimeDialog() {
+        Calendar now = Calendar.getInstance();
+        timePickerDialog = TimePickerDialog.newInstance(this, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), now.get(Calendar.SECOND), false);
+        timePickerDialog.setAccentColor(ContextCompat.getColor(activity, R.color.colorPrimary));
+        timePickerDialog.setTitle("");
+        timePickerDialog.setCancelColor(ContextCompat.getColor(activity, R.color.gray4));
+        timePickerDialog.setCancelText(getString(R.string.cancel));
+        timePickerDialog.setOkColor(ContextCompat.getColor(activity, R.color.colorPrimary));
+        timePickerDialog.setOkText(R.string.select);
+        timePickerDialog.setVersion(TimePickerDialog.Version.VERSION_2);
+        timePickerDialog.show(activity.getFragmentManager(), "");
+    }
+
+    private void showFilterDialog() {
         BottomSheetDialog dialog = new BottomSheetDialog(activity);
         dialog.setCancelable(true);
         dialog.setCanceledOnTouchOutside(true);
-        FilterDialogBinding filterDialogBinding = DataBindingUtil.inflate(LayoutInflater.from(activity),R.layout.filter_dialog,null,false);
-        if (filterBy.equals("male_ar")){
+        filterDialogBinding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.filter_dialog, null, false);
+        filterDialogBinding.setFromTime(fromTime);
+        filterDialogBinding.setToTime(toTime);
+
+        if (filterBy.equals("male_ar")) {
             filterDialogBinding.rbMaleAr.setChecked(true);
-        }else if (filterBy.equals("male_en")){
+        } else if (filterBy.equals("male_en")) {
             filterDialogBinding.rbMaleEn.setChecked(true);
 
-        }else if (filterBy.equals("female_ar")){
+        } else if (filterBy.equals("female_ar")) {
             filterDialogBinding.rbFemaleAr.setChecked(true);
 
-        }else if (filterBy.equals("female_en")){
+        } else if (filterBy.equals("female_en")) {
             filterDialogBinding.rbFemaleEn.setChecked(true);
 
-        }else {
+        } else {
             filterDialogBinding.rbAll.setChecked(true);
 
         }
 
         filterDialogBinding.rbAll.setOnCheckedChangeListener((compoundButton, b) -> {
-            if (b){
-                dialogFilterQuery ="all";
+            if (b) {
+                dialogFilterQuery = "all";
             }
         });
         filterDialogBinding.rbMaleAr.setOnCheckedChangeListener((compoundButton, b) -> {
-            if (b){
+            if (b) {
                 dialogFilterQuery = "male_ar";
             }
         });
 
         filterDialogBinding.rbMaleEn.setOnCheckedChangeListener((compoundButton, b) -> {
-            if (b){
+            if (b) {
                 dialogFilterQuery = "male_en";
             }
         });
 
 
         filterDialogBinding.rbFemaleAr.setOnCheckedChangeListener((compoundButton, b) -> {
-            if (b){
+            if (b) {
                 dialogFilterQuery = "female_ar";
             }
         });
 
         filterDialogBinding.rbFemaleEn.setOnCheckedChangeListener((compoundButton, b) -> {
-            if (b){
+            if (b) {
                 dialogFilterQuery = "female_en";
             }
         });
 
+        filterDialogBinding.llFromTime.setOnClickListener(view -> {
+            time_type = 1;
+            createTimeDialog();
+        });
+
+        filterDialogBinding.llToTime.setOnClickListener(view -> {
+            time_type = 2;
+            createTimeDialog();
+        });
+
+        filterDialogBinding.clearTime.setOnClickListener(view -> {
+            fromTime ="";
+            toTime="";
+            filterDialogBinding.setFromTime(fromTime);
+            filterDialogBinding.setToTime(toTime);
+        });
+
+
         filterDialogBinding.btnFilter.setOnClickListener(view -> {
             filterBy = dialogFilterQuery;
 
-            if (dialogFilterQuery.equals("all")){
+            if (dialogFilterQuery.equals("all")) {
                 binding.setFilter(getString(R.string.All));
-            }else if (dialogFilterQuery.equals("male_ar")){
+            } else if (dialogFilterQuery.equals("male_ar")) {
                 binding.setFilter(getString(R.string.male_ar));
-            }else if (dialogFilterQuery.equals("male_en")){
+            } else if (dialogFilterQuery.equals("male_en")) {
                 binding.setFilter(getString(R.string.male_en));
 
-            }else if (dialogFilterQuery.equals("female_ar")){
+            } else if (dialogFilterQuery.equals("female_ar")) {
                 binding.setFilter(getString(R.string.female_ar));
 
-            }else if (dialogFilterQuery.equals("female_en")){
+            } else if (dialogFilterQuery.equals("female_en")) {
                 binding.setFilter(getString(R.string.female_en));
 
             }
+
 
             getGuides(filterBy);
 
@@ -236,7 +318,60 @@ public class FragmentHome extends FragmentBase {
 
     public void setItemData(UserModel guideModel) {
         Intent intent = new Intent(activity, SendOrderActivity.class);
-        intent.putExtra("data",guideModel);
+        intent.putExtra("data", guideModel);
         startActivity(intent);
     }
+
+    @Override
+    public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND, second);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a", Locale.ENGLISH);
+        if (time_type == 1) {
+            fromTime = dateFormat.format(calendar.getTime());
+            filterDialogBinding.setFromTime(fromTime);
+        } else if (time_type == 2) {
+            toTime = dateFormat.format(calendar.getTime());
+            filterDialogBinding.setToTime(toTime);
+
+        }
+
+
+    }
+
+    private boolean isDateBetween(String from, String to) {
+        Log.e("from",from+"__"+to);
+        if (!from.isEmpty()&&!to.isEmpty()){
+
+            SimpleDateFormat format = new SimpleDateFormat("hh:mm a", Locale.ENGLISH);
+            try {
+                Date fromDateDriver = format.parse(from);
+                Calendar calendarFrom = Calendar.getInstance();
+                calendarFrom.setTime(fromDateDriver);
+                calendarFrom.add(Calendar.MINUTE,-1);
+                fromDateDriver = calendarFrom.getTime();
+
+                Date toDateDriver = format.parse(to);
+
+                Date fromDate = format.parse(fromTime);
+                Date toDate = format.parse(toTime);
+
+                Log.e("date",fromDate+"_"+toDate+"_____"+fromDateDriver+"_"+toDateDriver);
+                if (fromDate.after(fromDateDriver)&&fromDate.before(toDateDriver)){
+                    return true;
+                }
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+                Log.e("sdasda",e.getMessage());
+            }
+
+        }
+        Log.e("sda","tt");
+        return false;
+
+    }
+
 }
