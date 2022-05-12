@@ -170,6 +170,8 @@
                             app:tint="@color/colorPrimary" />
                     </androidx.cardview.widget.CardView>
 
+
+
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardAddress"
                         android:layout_width="0dp"
@@ -184,7 +186,7 @@
                         app:layout_constraintStart_toEndOf="@id/icon1"
                         app:layout_constraintTop_toTopOf="parent">
 
-                        <EditText
+                        <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@color/transparent"
@@ -195,8 +197,8 @@
                             android:textColor="@color/black"
                             android:textColorHint="@color/gray5"
                             android:textSize="14sp"
-                            android:text="@={offerModel.address}"
-                            error="@{offerModel.error_address}"
+                            android:gravity="center_vertical"
+                            android:text="@{offerModel.address}"
                             />
                     </androidx.cardview.widget.CardView>
 
@@ -212,6 +214,60 @@
                         app:layout_constraintTop_toBottomOf="@id/icon1" />
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/icon5"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginEnd="2dp"
+                        android:layout_marginBottom="3dp"
+                        app:cardCornerRadius="18dp"
+                        app:layout_constraintEnd_toStartOf="@id/cardPlace"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/cardPlace"
+
+                        >
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_pin"
+                            app:tint="@color/colorPrimary" />
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardPlace"
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginEnd="2dp"
+                        android:layout_marginBottom="3dp"
+                        app:cardCornerRadius="3dp"
+                        app:contentPadding="5dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/icon1"
+                        app:layout_constraintTop_toBottomOf="@id/v1"
+
+                        >
+                        <Spinner
+                            android:id="@+id/spinnerPlace"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            />
+                    </androidx.cardview.widget.CardView>
+
+                    <View
+                        android:id="@+id/v5"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="2dp"
+                        android:background="@drawable/vertical_line"
+                        android:layerType="software"
+                        app:layout_constraintEnd_toEndOf="@id/icon5"
+                        app:layout_constraintStart_toStartOf="@id/icon5"
+                        app:layout_constraintTop_toBottomOf="@id/icon5" />
+
+                    <androidx.cardview.widget.CardView
                         android:id="@+id/icon2"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
@@ -220,9 +276,9 @@
                         android:layout_marginEnd="2dp"
                         android:layout_marginBottom="3dp"
                         app:cardCornerRadius="18dp"
-                        app:layout_constraintEnd_toEndOf="@id/v1"
-                        app:layout_constraintStart_toStartOf="@id/v1"
-                        app:layout_constraintTop_toBottomOf="@id/v1">
+                        app:layout_constraintEnd_toEndOf="@id/v5"
+                        app:layout_constraintStart_toStartOf="@id/v5"
+                        app:layout_constraintTop_toBottomOf="@id/v5">
 
                         <ImageView
                             android:layout_width="24dp"

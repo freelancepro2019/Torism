@@ -68,13 +68,13 @@
                     />
 
                 <RadioButton
-                    android:id="@+id/rbMale"
+                    android:id="@+id/rbMaleAr"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:buttonTint="@color/colorPrimary"
                     android:textColor="@color/colorPrimary"
                     android:textSize="15sp"
-                    android:text="@string/male"
+                    android:text="@string/male_ar"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
                     android:background="@color/white"
@@ -83,13 +83,43 @@
 
                     />
                 <RadioButton
-                    android:id="@+id/rbFemale"
+                    android:id="@+id/rbMaleEn"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:buttonTint="@color/colorPrimary"
                     android:textColor="@color/colorPrimary"
                     android:textSize="15sp"
-                    android:text="@string/female"
+                    android:text="@string/male_en"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:background="@color/white"
+                    android:layout_marginTop="5dp"
+
+
+                    />
+
+                <RadioButton
+                    android:id="@+id/rbFemaleAr"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:buttonTint="@color/colorPrimary"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="15sp"
+                    android:text="@string/female_ar"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/white"
+                    />
+
+                <RadioButton
+                    android:id="@+id/rbFemaleEn"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:buttonTint="@color/colorPrimary"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="15sp"
+                    android:text="@string/female_en"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
                     android:layout_marginTop="5dp"

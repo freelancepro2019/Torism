@@ -1,5 +1,9 @@
 package com.app.tourism.uis.activity_send_order;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -9,14 +13,19 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.app.tourism.R;
+import com.app.tourism.adapters.SpinnerPlaceAdapter;
 import com.app.tourism.databinding.ActivitySendOrderBinding;
 import com.app.tourism.models.OfferModel;
+import com.app.tourism.models.SelectedLocation;
 import com.app.tourism.models.UserModel;
 import com.app.tourism.tags.Common;
 import com.app.tourism.tags.Tags;
+import com.app.tourism.uis.activity_map.MapActivity;
 import com.app.tourism.uis.common_ui.activity_base.ActivityBase;
 import com.app.tourism.uis.common_ui.activity_login.LoginActivity;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -30,8 +39,12 @@ import com.google.firebase.database.ValueEventListener;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class SendOrderActivity extends ActivityBase implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
@@ -39,6 +52,10 @@ public class SendOrderActivity extends ActivityBase implements DatePickerDialog.
     private OfferModel offerModel;
     private UserModel guideModel;
     private DatabaseReference dRef;
+    private ActivityResultLauncher<Intent> launcher;
+    private SpinnerPlaceAdapter adapter;
+    private List<String> places;
+    private String place = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +71,7 @@ public class SendOrderActivity extends ActivityBase implements DatePickerDialog.
     }
 
     private void initView() {
+        places = new ArrayList<>();
         offerModel = new OfferModel();
         binding.setLang(getLang());
         binding.setModel(guideModel);
@@ -61,10 +79,41 @@ public class SendOrderActivity extends ActivityBase implements DatePickerDialog.
         binding.llBack.setOnClickListener(view -> finish());
         binding.cardDate.setOnClickListener(view -> createDateDialog());
         binding.cardTime.setOnClickListener(view -> createTimeDialog());
-
+        binding.cardAddress.setOnClickListener(view -> {
+            Intent intent = new Intent(this, MapActivity.class);
+            launcher.launch(intent);
+        });
         binding.btnBook.setOnClickListener(view -> {
             sendOrder();
         });
+
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode()==RESULT_OK&&result.getData()!=null){
+                SelectedLocation location = (SelectedLocation) result.getData().getSerializableExtra("location");
+                offerModel.setAddress(location.getAddress());
+
+
+            }
+        });
+
+        places.add("مسجد قباء");
+        places.add("الحرم المكي");
+        place = places.get(0);
+        adapter = new SpinnerPlaceAdapter(places,this,getLang());
+        binding.spinnerPlace.setAdapter(adapter);
+        binding.spinnerPlace.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                place = places.get(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
 
         getGuideData();
     }
@@ -103,36 +152,63 @@ public class SendOrderActivity extends ActivityBase implements DatePickerDialog.
     }
 
     private void sendOrder() {
-        if (guideModel.isCanReceiveOrders()) {
-            ProgressDialog dialog = Common.createProgressDialog(this, getString(R.string.wait));
-            dialog.setCancelable(false);
-            dialog.setCanceledOnTouchOutside(false);
-            dialog.show();
 
-            dRef = FirebaseDatabase.getInstance().getReference();
-            DatabaseReference mRef = dRef.child(Tags.ORDERS_TABLE);
-            String order_id = mRef.push().getKey();
-            offerModel.setGuide_id(guideModel.getUser_id());
-            offerModel.setGuide_name(guideModel.getFirst_name() + " " + guideModel.getLast_name());
-            offerModel.setGuide_phone(guideModel.getPhone_code() + guideModel.getPhone());
-            offerModel.setUser_id(getUserModel().getUser_id());
-            offerModel.setUser_name(getUserModel().getFirst_name() + " " + getUserModel().getLast_name());
-            offerModel.setUser_phone(getUserModel().getPhone_code() + getUserModel().getPhone());
-            offerModel.setDate(getNowDate());
-            offerModel.setOrder_id(order_id);
-            mRef.child(order_id).setValue(offerModel)
-                    .addOnSuccessListener(unused -> {
-                        dialog.dismiss();
-                        Toast.makeText(this, R.string.suc, Toast.LENGTH_SHORT).show();
-                        finish();
-                    }).addOnFailureListener(e -> {
-                dialog.dismiss();
-                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            });
-        } else {
-            String msg = guideModel.getFirst_name() + " " + guideModel.getLast_name() + " " + getString(R.string.cnt_receive_order);
-            Common.createAlertDialog(this, msg);
+        SimpleDateFormat format = new SimpleDateFormat("hh:mm a",Locale.ENGLISH);
+        try {
+            Date fromDate = format.parse(guideModel.getFrom_time());
+            Calendar calendarFrom = Calendar.getInstance();
+            calendarFrom.setTime(fromDate);
+            calendarFrom.add(Calendar.MINUTE,-1);
+            fromDate = calendarFrom.getTime();
+
+            Date selected = format.parse(offerModel.getBooking_time());
+
+            Date toDate = format.parse(guideModel.getTo_time());
+            if (selected.after(fromDate)&&selected.before(toDate)){
+                ProgressDialog dialog = Common.createProgressDialog(this, getString(R.string.wait));
+                dialog.setCancelable(false);
+                dialog.setCanceledOnTouchOutside(false);
+                dialog.show();
+
+                dRef = FirebaseDatabase.getInstance().getReference();
+                DatabaseReference mRef = dRef.child(Tags.ORDERS_TABLE);
+                String order_id = mRef.push().getKey();
+                offerModel.setGuide_id(guideModel.getUser_id());
+                offerModel.setGuide_name(guideModel.getFirst_name() + " " + guideModel.getLast_name());
+                offerModel.setGuide_phone(guideModel.getPhone_code() + guideModel.getPhone());
+                offerModel.setUser_id(getUserModel().getUser_id());
+                offerModel.setUser_name(getUserModel().getFirst_name() + " " + getUserModel().getLast_name());
+                offerModel.setUser_phone(getUserModel().getPhone_code() + getUserModel().getPhone());
+                offerModel.setDate(getNowDate());
+                offerModel.setOrder_id(order_id);
+                offerModel.setDetails(place+"-"+offerModel.getDetails());
+
+
+
+                mRef.child(order_id).setValue(offerModel)
+                        .addOnSuccessListener(unused -> {
+                            dialog.dismiss();
+                            Toast.makeText(this, R.string.suc, Toast.LENGTH_SHORT).show();
+                            finish();
+                        }).addOnFailureListener(e -> {
+                    dialog.dismiss();
+                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+            }else {
+                String msg = guideModel.getFirst_name() + " " + guideModel.getLast_name() + " " + getString(R.string.cnt_receive_order);
+                Common.createAlertDialog(this, msg);
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
+
+
+       /* if (guideModel.isCanReceiveOrders()) {
+
+        } else {
+
+        }*/
 
 
     }

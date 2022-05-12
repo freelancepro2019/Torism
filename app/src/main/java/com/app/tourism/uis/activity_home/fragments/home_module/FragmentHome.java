@@ -89,7 +89,6 @@ public class FragmentHome extends FragmentBase {
         Query query = dRef.child(Tags.USERS_TABLE);
         query.orderByChild("user_type")
                 .equalTo(Tags.user_guide)
-                .limitToFirst(20)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -102,8 +101,29 @@ public class FragmentHome extends FragmentBase {
                                     if (filterBy.equals("all")){
                                         guidesList.add(userModel);
 
-                                    }else if (filterBy.equals(userModel.getGender())){
-                                        guidesList.add(userModel);
+                                    }else if (filterBy.equals("male_ar")){
+                                        if (userModel.getGender().equals(Tags.male)&&userModel.getLanguage().equals("ar")){
+                                            guidesList.add(userModel);
+
+                                        }
+
+                                    }else if (filterBy.equals("male_en")){
+                                        if (userModel.getGender().equals(Tags.male)&&userModel.getLanguage().equals("en")){
+                                            guidesList.add(userModel);
+
+                                        }
+
+                                    }else if (filterBy.equals("female_ar")){
+                                        if (userModel.getGender().equals(Tags.female)&&userModel.getLanguage().equals("ar")){
+                                            guidesList.add(userModel);
+
+                                        }
+
+                                    }else if (filterBy.equals("female_en")){
+                                        if (userModel.getGender().equals(Tags.female)&&userModel.getLanguage().equals("en")){
+                                            guidesList.add(userModel);
+
+                                        }
 
                                     }
                                 }
@@ -138,10 +158,16 @@ public class FragmentHome extends FragmentBase {
         dialog.setCancelable(true);
         dialog.setCanceledOnTouchOutside(true);
         FilterDialogBinding filterDialogBinding = DataBindingUtil.inflate(LayoutInflater.from(activity),R.layout.filter_dialog,null,false);
-        if (filterBy.equals(Tags.male)){
-            filterDialogBinding.rbMale.setChecked(true);
-        }else if (filterBy.equals(Tags.female)){
-            filterDialogBinding.rbFemale.setChecked(true);
+        if (filterBy.equals("male_ar")){
+            filterDialogBinding.rbMaleAr.setChecked(true);
+        }else if (filterBy.equals("male_en")){
+            filterDialogBinding.rbMaleEn.setChecked(true);
+
+        }else if (filterBy.equals("female_ar")){
+            filterDialogBinding.rbFemaleAr.setChecked(true);
+
+        }else if (filterBy.equals("female_en")){
+            filterDialogBinding.rbFemaleEn.setChecked(true);
 
         }else {
             filterDialogBinding.rbAll.setChecked(true);
@@ -153,28 +179,46 @@ public class FragmentHome extends FragmentBase {
                 dialogFilterQuery ="all";
             }
         });
-        filterDialogBinding.rbMale.setOnCheckedChangeListener((compoundButton, b) -> {
+        filterDialogBinding.rbMaleAr.setOnCheckedChangeListener((compoundButton, b) -> {
             if (b){
-                dialogFilterQuery = Tags.male;
+                dialogFilterQuery = "male_ar";
             }
         });
 
-        filterDialogBinding.rbFemale.setOnCheckedChangeListener((compoundButton, b) -> {
+        filterDialogBinding.rbMaleEn.setOnCheckedChangeListener((compoundButton, b) -> {
             if (b){
-                dialogFilterQuery = Tags.female;
+                dialogFilterQuery = "male_en";
+            }
+        });
+
+
+        filterDialogBinding.rbFemaleAr.setOnCheckedChangeListener((compoundButton, b) -> {
+            if (b){
+                dialogFilterQuery = "female_ar";
+            }
+        });
+
+        filterDialogBinding.rbFemaleEn.setOnCheckedChangeListener((compoundButton, b) -> {
+            if (b){
+                dialogFilterQuery = "female_en";
             }
         });
 
         filterDialogBinding.btnFilter.setOnClickListener(view -> {
             filterBy = dialogFilterQuery;
 
-
             if (dialogFilterQuery.equals("all")){
                 binding.setFilter(getString(R.string.All));
-            }else if (dialogFilterQuery.equals(Tags.male)){
-                binding.setFilter(getString(R.string.male));
-            }else if (dialogFilterQuery.equals(Tags.female)){
-                binding.setFilter(getString(R.string.female));
+            }else if (dialogFilterQuery.equals("male_ar")){
+                binding.setFilter(getString(R.string.male_ar));
+            }else if (dialogFilterQuery.equals("male_en")){
+                binding.setFilter(getString(R.string.male_en));
+
+            }else if (dialogFilterQuery.equals("female_ar")){
+                binding.setFilter(getString(R.string.female_ar));
+
+            }else if (dialogFilterQuery.equals("female_en")){
+                binding.setFilter(getString(R.string.female_en));
 
             }
 
