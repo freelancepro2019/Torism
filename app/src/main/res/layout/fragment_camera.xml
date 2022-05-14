@@ -61,14 +61,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
-                        android:text="Snap" />
+                        android:text="فتح الكاميرا" />
 
                     <Button
                         android:id="@+id/btnShowResult"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
-                        android:text="Show Result" />
+                        android:text="اظهار النتيجة" />
 
 
                     <LinearLayout
@@ -92,7 +92,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="result"
+                                android:text="النتائج"
                                 android:textColor="@color/black"
                                 android:textSize="18sp"
                                 android:textStyle="bold" />

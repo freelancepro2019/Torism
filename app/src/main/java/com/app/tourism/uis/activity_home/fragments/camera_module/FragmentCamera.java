@@ -205,7 +205,8 @@ public class FragmentCamera extends FragmentBase {
 
     private void getSearchResults(String searchQuery) {
         String apikey = "89bb969b41006602b5b3f1fd14f2f2c7192afbc3928038297eb15c297ea1cd54";
-        String url = "https://serpapi.com/search.json?q=" + searchQuery.trim() + "&location=Saudi Arabia&hl=en&gl=us&google_domain=google.com&api_key=" + apikey;
+        Log.e("xxxxx",searchQuery.trim() );
+        String url = "https://serpapi.com/search.json?q=" + searchQuery.trim() + "&location=Saudi Arabia&hl=ar&gl=us&google_domain=google.com&api_key=" + apikey;
         RequestQueue queue = Volley.newRequestQueue(activity);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
