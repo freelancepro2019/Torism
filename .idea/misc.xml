@@ -3,6 +3,25 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android Projects/Torism/app/src/main/res/drawable/ic_photo.xml" value="0.21614583333333334" />
+        <entry key="..\:/Android Projects/Torism/app/src/main/res/drawable/ic_tourist.xml" value="0.2128205128205128" />
+        <entry key="..\:/Android Projects/Torism/app/src/main/res/drawable/ic_user.xml" value="0.2128205128205128" />
+        <entry key="..\:/Android Projects/Torism/app/src/main/res/layout/activity_home.xml" value="0.2" />
+        <entry key="..\:/Android Projects/Torism/app/src/main/res/layout/activity_login.xml" value="0.2" />
+        <entry key="..\:/Android Projects/Torism/app/src/main/res/layout/activity_send_order.xml" value="0.2" />
+        <entry key="..\:/Android Projects/Torism/app/src/main/res/layout/activity_sign_up.xml" value="0.25" />
+        <entry key="..\:/Android Projects/Torism/app/src/main/res/layout/activity_splash.xml" value="0.2" />
+        <entry key="..\:/Android Projects/Torism/app/src/main/res/layout/fragment_camera.xml" value="0.2" />
+        <entry key="..\:/Android Projects/Torism/app/src/main/res/layout/fragment_home.xml" value="0.2" />
+        <entry key="..\:/Android Projects/Torism/app/src/main/res/layout/fragment_home_base.xml" value="0.2" />
+        <entry key="..\:/Android Projects/Torism/app/src/main/res/layout/fragment_home_guide.xml" value="0.2" />
+        <entry key="..\:/Android Projects/Torism/app/src/main/res/layout/fragment_home_guide_base.xml" value="0.2" />
+        <entry key="..\:/Android Projects/Torism/app/src/main/res/layout/fragment_profile.xml" value="0.19692307692307692" />
+        <entry key="..\:/Android Projects/Torism/app/src/main/res/layout/guide_row.xml" value="0.2" />
+        <entry key="..\:/Android Projects/Torism/app/src/main/res/layout/recyclerview_layout.xml" value="0.2" />
+        <entry key="..\:/Android Projects/Torism/app/src/main/res/layout/search_row.xml" value="0.2" />
+        <entry key="..\:/Android Projects/Torism/app/src/main/res/layout/search_vr_row.xml" value="0.2" />
+        <entry key="..\:/Android Projects/Torism/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.21614583333333334" />
         <entry key="..\:/works/Courses/work_android/FreeLancer/MedicineAlert/app/src/main/res/drawable/curved_profile.xml" value="0.24114583333333334" />
         <entry key="..\:/works/Courses/work_android/FreeLancer/MedicineAlert/app/src/main/res/drawable/dialog_bg.xml" value="0.24114583333333334" />
         <entry key="..\:/works/Courses/work_android/FreeLancer/MedicineAlert/app/src/main/res/drawable/ic_add.xml" value="0.24114583333333334" />

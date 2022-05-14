@@ -170,7 +170,6 @@ public class FragmentCamera extends FragmentBase {
 
              }else {
 
-                 Log.e("cccc",bitmap+"___");
              }
             }
         });
@@ -193,21 +192,20 @@ public class FragmentCamera extends FragmentBase {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(activity, "Failed To Detect Image", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, "Failed To Detect Image"+"    "+e, Toast.LENGTH_SHORT).show();
+               Log.e("eeeee",e+"");
                 }
             });
      /*   } catch (Exception e) {
 
         }*/
-        Toast.makeText(activity, "Failed To Detect Image", Toast.LENGTH_SHORT).show();
 
 
     }
 
     private void getSearchResults(String searchQuery) {
-        Toast.makeText(activity, "cccccccc", Toast.LENGTH_SHORT).show();
         String apikey = "89bb969b41006602b5b3f1fd14f2f2c7192afbc3928038297eb15c297ea1cd54";
-        String url = "https://serpapi.com/search.json?q=" + searchQuery.trim() + "&location=riad,saudi&hl=en&gl=us&google_domain=google.com&api_key=" + apikey;
+        String url = "https://serpapi.com/search.json?q=" + searchQuery.trim() + "&location=Saudi Arabia&hl=en&gl=us&google_domain=google.com&api_key=" + apikey;
         RequestQueue queue = Volley.newRequestQueue(activity);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
